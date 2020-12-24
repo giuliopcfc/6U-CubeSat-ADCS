@@ -2,9 +2,10 @@ data = struct();
 
 %% Inertia properties of the spacecraft:
 data.sc.mass = 12;
-data.sc.Ix = 182500e-6;
-data.sc.Iy = 187200e-6;
-data.sc.Iz = 110500e-6;
+data.sc.Ix = 110500e-6;
+data.sc.Iy = 182500e-6;
+data.sc.Iz = 187200e-6;
+
 data.sc.inertiaMatrix = [data.sc.Ix 0 0; 0 data.sc.Iy 0; 0 0 data.sc.Iz];
 
 %% Magnetic Torque:
@@ -22,7 +23,7 @@ data.SRP.NBMat = NBMat;
 
 % Areas:
 U = 100e-3;
-a1 = 4*U^2; a2 = 2*3*U^2; 
+a1 = 4*U^2; a2 = 2*3*U^2;
 data.SRP.aSurf = [a2*ones(4,1); a1*[1;1]; a2*ones(8,1)];
 
 % Positions:
@@ -60,11 +61,39 @@ data.reactionWheel.MMax = 2.3e-3;
 data.reactionWheel.h0 = [0; 0; 0];
 
 %% Magnetorquer:
-data.magnetorquer.m0 = 1.19; 
+data.magnetorquer.m0 = 1.19;
 
 %% Detumbling:
-data.detumbling.times = [0 800 5000];
+data.detumbling.times = [0 800 830];
 data.detumbling.kProp = -1e-1;
+
+%% Slew Motion:
+data.slewMotion.kWE = 1e-3;
+data.slewMotion.kAE = 1e-3;
+
+%% Nadir Pointing:
+load linearSys
+
+csi = 0.7;
+
+p =  -csi*abs(eigA) + sqrt(1 - csi^2)*eigA;
+
+p = p*100;
+
+G = place(A,B,p);
+
+pe = 6*p;
+
+LT = place(A',C',pe);
+L = LT';
+
+data.nadirPointing.Ac = A - L*C - B*G;
+data.nadirPointing.G = G;
+data.nadirPointing.L = L;
+
+%% Control:
+data.control.times = [0 830 830 3000 3000 1e4];
+
 %% Orbit:
 data.orbit.a = 7271;
 data.orbit.e = 0.02;
@@ -73,7 +102,7 @@ data.orbit.OM = 0*pi/180;
 data.orbit.om = 0*pi/180;
 
 %% Initial conditions:
-data.ic.w = [8;10;-7]*pi/180*1e-4;
+data.ic.w = [8;10;-7]*pi/180;
 data.ic.dcm = eye(3);
 data.ic.quaternions = [0;0;0;1];
 data.ic.th = 0;
