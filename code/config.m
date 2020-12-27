@@ -43,16 +43,21 @@ data.SRP.rhoS = [rhoSB*ones(6,1); rhoSP*ones(8,1)];
 data.SRP.rhoD = [rhoDB*ones(6,1); rhoDP*ones(8,1)];
 
 %% Star Sensor:
-% load HYG
-% data.starSensor.versStars = HYG.VERS(1:100:end,:);
-% data.starSensor.FOV = 14*pi/180;
-% data.starSensor.variance = (1/3600*pi/180)^2;
-% data.starSensor.sampleTime = 1/5;
+data.starSensor.FOV = 40*pi/180;
+data.starSensor.ABS = [0 1 0; 0 0 -1; -1 0 0];
+data.starSensor.sampleTime = 1/10;
+data.starSensor.sigma = 10/3600*pi/180;
 
 %% Gyroscope:
-% data.gyroscope.sampleTime = 1/262;
-% data.gyroscope.sigmaN = 2.6957e-06;
-% data.gyroscope.sigmaB = 1.4976e-12;
+sampleTime = 0.01;
+data.gyroscope.sampleTime = sampleTime;
+data.gyroscope.sigmaN = 0.15*pi/180/sqrt(3600)/sqrt(sampleTime);
+data.gyroscope.sigmaB = 3e-4*pi/180/sqrt(3600)/sqrt(sampleTime);
+data.gyroscope.alphaObs = 1;
+
+%% Magnetometer:
+data.magnetometer.sigma = 3e-6;
+data.magnetometer.sampleTime = 1;
 
 %% Reaction Wheels:
 data.reactionWheel.axis = eye(3);
@@ -61,24 +66,25 @@ data.reactionWheel.MMax = 2.3e-3;
 data.reactionWheel.h0 = [0; 0; 0];
 
 %% Magnetorquer:
-data.magnetorquer.m0 = 1.19;
+data.magnetorquer.m0 = 0.2;
 
 %% Detumbling:
-data.detumbling.times = [0 800 830];
-data.detumbling.kProp = -1e-1;
+data.detumbling.tDamping = 4000;
+data.detumbling.tProp = 400 + data.detumbling.tDamping;
+data.detumbling.kProp = 10;
 
 %% Slew Motion:
-data.slewMotion.kWE = 1e-3;
-data.slewMotion.kAE = 1e-3;
+data.slewMotion.kWE = 5e-4;
+data.slewMotion.kAE = 5e-2;
 
 %% Nadir Pointing:
 load linearSys
 
-csi = 0.7;
+csi = 0.9;
 
 p =  -csi*abs(eigA) + sqrt(1 - csi^2)*eigA;
 
-p = p*100;
+p = p*3000;
 
 G = place(A,B,p);
 
@@ -92,7 +98,19 @@ data.nadirPointing.G = G;
 data.nadirPointing.L = L;
 
 %% Control:
-data.control.times = [0 830 830 3000 3000 1e4];
+startDetumbling = 0;
+stopDetumbling = data.detumbling.tProp;
+startSlew = stopDetumbling;
+stopSlew = startSlew + 12000;
+startPointing = stopSlew;
+stopPointing = startPointing + 3000;
+
+data.detumbling.start = startDetumbling;
+data.detumbling.stop = stopDetumbling;
+data.slewMotion.start = startSlew;
+data.slewMotion.stop = stopSlew;
+data.nadirPointing.start = startPointing;
+data.nadirPointing.stop = stopPointing;
 
 %% Orbit:
 data.orbit.a = 7271;
@@ -122,4 +140,4 @@ data.orbit.per2ECI = (Rom*Ri*ROM)';
 data.orbit.period = 2*pi*sqrt(data.orbit.a^3/data.const.MU);
 
 %% Clear Vars:
-clearvars -except data
+clearvars -except data 
