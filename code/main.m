@@ -3,36 +3,45 @@ clear; close all; clc;
 %% Load Data:
 config
 
-% libraryMatlab
-% 
-% model
-%% Simulink setup:
-sim_time = 2*data.orbit.period;
-sim_time = 200;
-
-set_param('model', 'Solver', 'ode15s',...
+%% Detumbling:
+stopTime = data.detumbling.stop;
+startTime = data.detumbling.start;
+set_param('detumbling', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.starSensor.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
-    'StopTime', num2str(sim_time))
+    'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
+detumbling = sim('detumbling');
 
-%% Run Simulation:
-tic
-out = sim('model');
-toc
+% Final Conditions:
+finalDetumbling = struct();
+finalDetumbling.ABN = detumbling.ABN.Data(:,:,end); 
+finalDetumbling.w = detumbling.w.Data(end,:)';
+finalDetumbling.theta = detumbling.theta.Data(end);
+finalDetumbling.hR = detumbling.hR.Data(end);
+finalDetumbling.bGyro = detumbling.bGyro.Data(end,:)';
 
-t = out.tout;
-dM = out.dM.Data;
-dGG = out.dGG.Data;
-dSRP = out.dSRP.Data;
-errStarSensor = out.errStarSensor.Data;
+save finalDetumbling finalDetumbling
 
-%%
-figure,
-plot(t,dM,t,dGG,t,dSRP)
-legend('Magnetic Torque','Gravity Gradient Torque','SRP Torque')
-xlabel('t [s]'), ylabel('Torque [Nm]')
-
-figure,
-plot(t,errStarSensor)
-
-
+% %% Slew Manoeuver:
+% data.ic.ABN = finalDetumbling.ABN; 
+% data.ic.w = finalDetumbling.w;
+% data.ic.theta = finalDetumbling.theta;
+% data.reactionWheels.h0 = finalDetumbling.hR;
+% data.gyroscope.b0 = finalDetumbling.bGyro;
+% 
+% stopTime = data.slew.stop;
+% startTime = data.slew.start;
+% set_param('detumbling', 'Solver', 'ode15s',...
+%     'MaxStep', num2str(data.starSensor.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
+%     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
+% 
+% slew = sim('slew');
+% 
+% % Final Conditions:
+% finalSlew = struct();
+% finalSlew.ABN = slew.ABN.Data(:,:,end); 
+% finalSlew.w = slew.w.Data(end,:)';
+% finalSlew.theta = slew.theta.Data(end);
+% finalSlew.bGyro = slew.bGyro.Data(end,:)';
+% 
+% save finalSlew finalSlew

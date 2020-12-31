@@ -53,29 +53,31 @@ sampleTime = 0.01;
 data.gyroscope.sampleTime = sampleTime;
 data.gyroscope.sigmaN = 0.15*pi/180/sqrt(3600)/sqrt(sampleTime);
 data.gyroscope.sigmaB = 3e-4*pi/180/sqrt(3600)/sqrt(sampleTime);
-data.gyroscope.alphaObs = 1;
+data.gyroscope.alphaObs = 0.1;
+data.gyroscope.b0 = [0;0;0];
 
 %% Magnetometer:
-data.magnetometer.sigma = 3e-6;
+data.magnetometer.sigma = 8e-9;
 data.magnetometer.sampleTime = 1;
 
 %% Reaction Wheels:
-data.reactionWheel.axis = eye(3);
+data.reactionWheel.axis = [1;1;1]/sqrt(3);
 data.reactionWheel.hMax = 30e-3;
 data.reactionWheel.MMax = 2.3e-3;
-data.reactionWheel.h0 = [0; 0; 0];
+data.reactionWheel.h0 = [0];
 
 %% Magnetorquer:
-data.magnetorquer.m0 = 0.2;
+data.magnetorquer.m0 = 0.29;
 
 %% Detumbling:
-data.detumbling.tDamping = 4000;
-data.detumbling.tProp = 400 + data.detumbling.tDamping;
-data.detumbling.kProp = 10;
+data.detumbling.tDamping = 1.5e4;
+data.detumbling.kDamping = 9e5;
+data.detumbling.tProp = 200 + data.detumbling.tDamping;
+data.detumbling.kProp = 7e-2;
 
 %% Slew Motion:
-data.slewMotion.kWE = 5e-4;
-data.slewMotion.kAE = 5e-2;
+data.slew.kWE = 1;
+data.slew.kAE = 9e-3;
 
 %% Nadir Pointing:
 load linearSys
@@ -97,7 +99,7 @@ data.nadirPointing.Ac = A - L*C - B*G;
 data.nadirPointing.G = G;
 data.nadirPointing.L = L;
 
-%% Control:
+%% Control Times:
 startDetumbling = 0;
 stopDetumbling = data.detumbling.tProp;
 startSlew = stopDetumbling;
@@ -107,22 +109,21 @@ stopPointing = startPointing + 3000;
 
 data.detumbling.start = startDetumbling;
 data.detumbling.stop = stopDetumbling;
-data.slewMotion.start = startSlew;
-data.slewMotion.stop = stopSlew;
+data.slew.start = startSlew;
+data.slew.stop = stopSlew;
 data.nadirPointing.start = startPointing;
 data.nadirPointing.stop = stopPointing;
 
 %% Orbit:
 data.orbit.a = 7271;
 data.orbit.e = 0.02;
-data.orbit.i = 70*pi/180;
+data.orbit.i = 10*pi/180;
 data.orbit.OM = 0*pi/180;
 data.orbit.om = 0*pi/180;
 
 %% Initial conditions:
 data.ic.w = [8;10;-7]*pi/180;
 data.ic.dcm = eye(3);
-data.ic.quaternions = [0;0;0;1];
 data.ic.th = 0;
 
 %% Constants:
