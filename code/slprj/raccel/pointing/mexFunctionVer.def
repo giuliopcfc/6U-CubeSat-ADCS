@@ -1,0 +1,4 @@
+LIBRARY "C:\Users\pacif\OneDrive\Desktop\PoliMi\Spacecraft Attitude Dynamics And Control [Franco Bernelli Zazzera]\SADC-project\code\slprj\raccel\pointing\tmwinternal\pointing_capi_host.mexw64" 
+EXPORTS 
+mexFunction 
+mexfilerequiredapiversion 

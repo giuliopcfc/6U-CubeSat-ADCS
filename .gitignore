@@ -1,3 +1,5 @@
 /*
 !.gitignore
 !code/
+/code/tests/
+/code/results.mat
