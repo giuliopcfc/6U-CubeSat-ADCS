@@ -83,34 +83,33 @@ rt_urand_Upu32_Yd_f_pw_snf ( u ) - 1.0 ; si = sr * sr + si * si ; } while (
 si > 1.0 ) ; y = muDoubleScalarSqrt ( - 2.0 * muDoubleScalarLog ( si ) / si )
 * sr ; return y ; } static void mdlOutputs ( SimStruct * S , int_T tid ) {
 B_detumbling_T * _rtB ; DW_detumbling_T * _rtDW ; P_detumbling_T * _rtP ;
-PrevZCX_detumbling_T * _rtZCE ; X_detumbling_T * _rtX ; int32_T isHit ;
-int8_T rtAction ; int8_T rtPrevAction ; boolean_T didZcEventOccur ; _rtDW = (
-( DW_detumbling_T * ) ssGetRootDWork ( S ) ) ; _rtZCE = ( (
-PrevZCX_detumbling_T * ) _ssGetPrevZCSigState ( S ) ) ; _rtX = ( (
-X_detumbling_T * ) ssGetContStates ( S ) ) ; _rtP = ( ( P_detumbling_T * )
-ssGetModelRtp ( S ) ) ; _rtB = ( ( B_detumbling_T * ) _ssGetModelBlockIO ( S
-) ) ; _rtB -> B_29_0_0 = ssGetT ( S ) ; _rtB -> B_29_1_0 = ssGetT ( S ) ;
-_rtB -> B_29_2_0 = _rtX -> Integrator_CSTATE ; ssCallAccelRunBlock ( S , 25 ,
-0 , SS_CALL_MDL_OUTPUTS ) ; memcpy ( & _rtB -> B_29_4_0 [ 0 ] , & _rtX ->
-Integrator_CSTATE_d [ 0 ] , 9U * sizeof ( real_T ) ) ; ssCallAccelRunBlock (
-S , 17 , 0 , SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 19 , 0 ,
-SS_CALL_MDL_OUTPUTS ) ; isHit = ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0
-) { _rtB -> B_29_7_0 [ 0 ] = _rtDW -> NextOutput [ 0 ] ; _rtB -> B_29_7_0 [ 1
-] = _rtDW -> NextOutput [ 1 ] ; _rtB -> B_29_7_0 [ 2 ] = _rtDW -> NextOutput
-[ 2 ] ; } _rtB -> B_29_8_0 [ 0 ] = _rtB -> B_19_0_1 [ 0 ] + _rtB -> B_29_7_0
-[ 0 ] ; _rtB -> B_29_8_0 [ 1 ] = _rtB -> B_19_0_1 [ 1 ] + _rtB -> B_29_7_0 [
-1 ] ; _rtB -> B_29_8_0 [ 2 ] = _rtB -> B_19_0_1 [ 2 ] + _rtB -> B_29_7_0 [ 2
-] ; isHit = ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0 ) { for ( isHit = 0
-; isHit < 3 ; isHit ++ ) { _rtB -> B_29_10_0 [ isHit ] = 0.0 ; _rtB ->
-B_29_10_0 [ isHit ] += _rtP -> P_5 [ isHit ] * _rtB -> B_29_8_0 [ 0 ] ; _rtB
--> B_29_10_0 [ isHit ] += _rtP -> P_5 [ isHit + 3 ] * _rtB -> B_29_8_0 [ 1 ]
-; _rtB -> B_29_10_0 [ isHit ] += _rtP -> P_5 [ isHit + 6 ] * _rtB -> B_29_8_0
-[ 2 ] ; } } { real_T * * uBuffer = ( real_T * * ) & _rtDW ->
-TransportDelay_PWORK . TUbufferPtrs [ 0 ] ; real_T * * tBuffer = ( real_T * *
-) & _rtDW -> TransportDelay_PWORK . TUbufferPtrs [ 3 ] ; real_T simTime =
-ssGetT ( S ) ; real_T tMinusDelay ; { int_T i1 ; real_T * y0 = & _rtB ->
-B_29_11_0 [ 0 ] ; const real_T * p_P_7 = _rtP -> P_7 ; int_T * iw_Tail = &
-_rtDW -> TransportDelay_IWORK . Tail [ 0 ] ; int_T * iw_Head = & _rtDW ->
+X_detumbling_T * _rtX ; int32_T i ; _rtDW = ( ( DW_detumbling_T * )
+ssGetRootDWork ( S ) ) ; _rtX = ( ( X_detumbling_T * ) ssGetContStates ( S )
+) ; _rtP = ( ( P_detumbling_T * ) ssGetModelRtp ( S ) ) ; _rtB = ( (
+B_detumbling_T * ) _ssGetModelBlockIO ( S ) ) ; _rtB -> B_15_0_0 = ssGetT ( S
+) ; _rtB -> B_15_1_0 = ssGetT ( S ) ; _rtB -> B_15_2_0 = _rtX ->
+Integrator_CSTATE ; ssCallAccelRunBlock ( S , 11 , 0 , SS_CALL_MDL_OUTPUTS )
+; memcpy ( & _rtB -> B_15_4_0 [ 0 ] , & _rtX -> Integrator_CSTATE_d [ 0 ] ,
+9U * sizeof ( real_T ) ) ; ssCallAccelRunBlock ( S , 3 , 0 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 5 , 0 , SS_CALL_MDL_OUTPUTS
+) ; i = ssIsSampleHit ( S , 2 , 0 ) ; if ( i != 0 ) { _rtB -> B_15_7_0 [ 0 ]
+= _rtDW -> NextOutput [ 0 ] ; _rtB -> B_15_7_0 [ 1 ] = _rtDW -> NextOutput [
+1 ] ; _rtB -> B_15_7_0 [ 2 ] = _rtDW -> NextOutput [ 2 ] ; } _rtB -> B_15_8_0
+[ 0 ] = _rtB -> B_5_0_1 [ 0 ] + _rtB -> B_15_7_0 [ 0 ] ; _rtB -> B_15_8_0 [ 1
+] = _rtB -> B_5_0_1 [ 1 ] + _rtB -> B_15_7_0 [ 1 ] ; _rtB -> B_15_8_0 [ 2 ] =
+_rtB -> B_5_0_1 [ 2 ] + _rtB -> B_15_7_0 [ 2 ] ; i = ssIsSampleHit ( S , 2 ,
+0 ) ; if ( i != 0 ) { _rtB -> B_15_9_0 [ 0 ] = _rtB -> B_15_8_0 [ 0 ] ; _rtB
+-> B_15_9_0 [ 1 ] = _rtB -> B_15_8_0 [ 1 ] ; _rtB -> B_15_9_0 [ 2 ] = _rtB ->
+B_15_8_0 [ 2 ] ; for ( i = 0 ; i < 3 ; i ++ ) { _rtB -> B_15_10_0 [ i ] = 0.0
+; _rtB -> B_15_10_0 [ i ] += _rtP -> P_5 [ i ] * _rtB -> B_15_9_0 [ 0 ] ;
+_rtB -> B_15_10_0 [ i ] += _rtP -> P_5 [ i + 3 ] * _rtB -> B_15_9_0 [ 1 ] ;
+_rtB -> B_15_10_0 [ i ] += _rtP -> P_5 [ i + 6 ] * _rtB -> B_15_9_0 [ 2 ] ; }
+} { real_T * * uBuffer = ( real_T * * ) & _rtDW -> TransportDelay_PWORK .
+TUbufferPtrs [ 0 ] ; real_T * * tBuffer = ( real_T * * ) & _rtDW ->
+TransportDelay_PWORK . TUbufferPtrs [ 3 ] ; real_T simTime = ssGetT ( S ) ;
+real_T tMinusDelay ; { int_T i1 ; real_T * y0 = & _rtB -> B_15_11_0 [ 0 ] ;
+const real_T * p_P_7 = _rtP -> P_7 ; int_T * iw_Tail = & _rtDW ->
+TransportDelay_IWORK . Tail [ 0 ] ; int_T * iw_Head = & _rtDW ->
 TransportDelay_IWORK . Head [ 0 ] ; int_T * iw_Last = & _rtDW ->
 TransportDelay_IWORK . Last [ 0 ] ; int_T * iw_CircularBufSize = & _rtDW ->
 TransportDelay_IWORK . CircularBufSize [ 0 ] ; for ( i1 = 0 ; i1 < 3 ; i1 ++
@@ -119,183 +118,101 @@ TransportDelay_IWORK . CircularBufSize [ 0 ] ; for ( i1 = 0 ; i1 < 3 ; i1 ++
 tMinusDelay , 0.0 , * tBuffer , * uBuffer , iw_CircularBufSize [ i1 ] , &
 iw_Last [ i1 ] , iw_Tail [ i1 ] , iw_Head [ i1 ] , p_P_7 [ i1 ] , 1 , (
 boolean_T ) ( ssIsMinorTimeStep ( S ) && ( ssGetTimeOfLastOutput ( S ) ==
-ssGetT ( S ) ) ) ) ; tBuffer ++ ; uBuffer ++ ; } } } _rtB -> B_29_12_0 [ 0 ]
-= _rtB -> B_29_10_0 [ 0 ] - _rtB -> B_29_11_0 [ 0 ] ; _rtB -> B_29_13_0 [ 0 ]
-= _rtX -> Integrator_CSTATE_g [ 0 ] ; _rtB -> B_29_12_0 [ 1 ] = _rtB ->
-B_29_10_0 [ 1 ] - _rtB -> B_29_11_0 [ 1 ] ; _rtB -> B_29_13_0 [ 1 ] = _rtX ->
-Integrator_CSTATE_g [ 1 ] ; _rtB -> B_29_12_0 [ 2 ] = _rtB -> B_29_10_0 [ 2 ]
-- _rtB -> B_29_11_0 [ 2 ] ; _rtB -> B_29_13_0 [ 2 ] = _rtX ->
-Integrator_CSTATE_g [ 2 ] ; isHit = ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit
-!= 0 ) { _rtB -> B_29_14_0 [ 0 ] = _rtDW -> NextOutput_o [ 0 ] ; _rtB ->
-B_29_14_0 [ 1 ] = _rtDW -> NextOutput_o [ 1 ] ; _rtB -> B_29_14_0 [ 2 ] =
-_rtDW -> NextOutput_o [ 2 ] ; } _rtB -> B_29_15_0 [ 0 ] = _rtX ->
-Integrator_CSTATE_f [ 0 ] ; _rtB -> B_29_17_0 [ 0 ] = ( _rtB -> B_29_14_0 [ 0
-] + _rtB -> B_29_15_0 [ 0 ] ) + _rtB -> B_29_13_0 [ 0 ] ; _rtB -> B_29_15_0 [
-1 ] = _rtX -> Integrator_CSTATE_f [ 1 ] ; _rtB -> B_29_17_0 [ 1 ] = ( _rtB ->
-B_29_14_0 [ 1 ] + _rtB -> B_29_15_0 [ 1 ] ) + _rtB -> B_29_13_0 [ 1 ] ; _rtB
--> B_29_15_0 [ 2 ] = _rtX -> Integrator_CSTATE_f [ 2 ] ; _rtB -> B_29_17_0 [
-2 ] = ( _rtB -> B_29_14_0 [ 2 ] + _rtB -> B_29_15_0 [ 2 ] ) + _rtB ->
-B_29_13_0 [ 2 ] ; isHit = ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0 ) {
-_rtB -> B_29_18_0 [ 0 ] = _rtB -> B_29_17_0 [ 0 ] ; _rtB -> B_29_18_0 [ 1 ] =
-_rtB -> B_29_17_0 [ 1 ] ; _rtB -> B_29_18_0 [ 2 ] = _rtB -> B_29_17_0 [ 2 ] ;
-} if ( ssIsMajorTimeStep ( S ) != 0 ) { if ( _rtDW -> Integrator_IWORK != 0 )
-{ _rtX -> Integrator_CSTATE_l [ 0 ] = _rtB -> B_29_18_0 [ 0 ] ; _rtX ->
-Integrator_CSTATE_l [ 1 ] = _rtB -> B_29_18_0 [ 1 ] ; _rtX ->
-Integrator_CSTATE_l [ 2 ] = _rtB -> B_29_18_0 [ 2 ] ; } _rtB -> B_29_19_0 [ 0
-] = _rtX -> Integrator_CSTATE_l [ 0 ] ; _rtB -> B_29_19_0 [ 1 ] = _rtX ->
-Integrator_CSTATE_l [ 1 ] ; _rtB -> B_29_19_0 [ 2 ] = _rtX ->
-Integrator_CSTATE_l [ 2 ] ; } else { _rtB -> B_29_19_0 [ 0 ] = _rtX ->
-Integrator_CSTATE_l [ 0 ] ; _rtB -> B_29_19_0 [ 1 ] = _rtX ->
-Integrator_CSTATE_l [ 1 ] ; _rtB -> B_29_19_0 [ 2 ] = _rtX ->
-Integrator_CSTATE_l [ 2 ] ; } _rtB -> B_29_20_0 = _rtX -> Integrator_CSTATE_k
-; ssCallAccelRunBlock ( S , 15 , 0 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 29 , 22 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 14 , 0 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 29 , 24 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 29 , 25 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 29 , 26 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 29 , 27 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 26 , 0 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 20 , 0 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 22 , 0 , SS_CALL_MDL_OUTPUTS ) ; _rtB -> B_29_31_0
-= ssGetT ( S ) ; ssCallAccelRunBlock ( S , 23 , 0 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 21 , 0 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 18 , 0 , SS_CALL_MDL_OUTPUTS ) ; _rtB -> B_29_35_0
-[ 0 ] = ( ( _rtB -> B_20_0_1 [ 0 ] + _rtB -> B_22_0_1 [ 0 ] ) + _rtB ->
-B_21_0_1 [ 0 ] ) + _rtB -> B_18_0_1 [ 0 ] ; _rtB -> B_29_36_0 [ 0 ] = _rtB ->
-B_29_35_0 [ 0 ] + _rtB -> B_14_0_1 [ 0 ] ; _rtB -> B_29_35_0 [ 1 ] = ( ( _rtB
--> B_20_0_1 [ 1 ] + _rtB -> B_22_0_1 [ 1 ] ) + _rtB -> B_21_0_1 [ 1 ] ) +
-_rtB -> B_18_0_1 [ 1 ] ; _rtB -> B_29_36_0 [ 1 ] = _rtB -> B_29_35_0 [ 1 ] +
-_rtB -> B_14_0_1 [ 1 ] ; _rtB -> B_29_35_0 [ 2 ] = ( ( _rtB -> B_20_0_1 [ 2 ]
-+ _rtB -> B_22_0_1 [ 2 ] ) + _rtB -> B_21_0_1 [ 2 ] ) + _rtB -> B_18_0_1 [ 2
-] ; _rtB -> B_29_36_0 [ 2 ] = _rtB -> B_29_35_0 [ 2 ] + _rtB -> B_14_0_1 [ 2
-] ; ssCallAccelRunBlock ( S , 12 , 0 , SS_CALL_MDL_OUTPUTS ) ; isHit =
-ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0 ) { _rtB -> B_29_39_0 [ 0 ] =
-_rtDW -> NextOutput_m [ 0 ] ; _rtB -> B_29_39_0 [ 1 ] = _rtDW -> NextOutput_m
-[ 1 ] ; _rtB -> B_29_39_0 [ 2 ] = _rtDW -> NextOutput_m [ 2 ] ; _rtB ->
-B_29_39_0 [ 3 ] = _rtDW -> NextOutput_m [ 3 ] ; memcpy ( & _rtB -> B_29_38_0
-[ 0 ] , & _rtDW -> NextOutput_f [ 0 ] , sizeof ( real_T ) << 3U ) ; memcpy (
-& _rtB -> B_29_40_0 [ 0 ] , & _rtDW -> UniformRandomNumber_NextOutput [ 0 ] ,
-sizeof ( real_T ) << 3U ) ; memcpy ( & _rtB -> B_29_41_0 [ 0 ] , & _rtB ->
-B_17_0_1 [ 0 ] , 9U * sizeof ( real_T ) ) ; ssCallAccelRunBlock ( S , 28 , 0
-, SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 13 , 0 ,
-SS_CALL_MDL_OUTPUTS ) ; } if ( ssIsMajorTimeStep ( S ) != 0 ) {
-didZcEventOccur = ( ( ( _rtZCE -> Integrator1_Reset_ZCE == POS_ZCSIG ) != (
-int32_T ) _rtB -> B_12_0_1 ) && ( _rtZCE -> Integrator1_Reset_ZCE !=
-UNINITIALIZED_ZCSIG ) ) ; _rtZCE -> Integrator1_Reset_ZCE = _rtB -> B_12_0_1
-; if ( didZcEventOccur || ( _rtDW -> Integrator1_IWORK != 0 ) ) { memcpy ( &
-_rtX -> Integrator1_CSTATE [ 0 ] , & _rtB -> B_13_0_1 [ 0 ] , 9U * sizeof (
-real_T ) ) ; ssSetBlockStateForSolverChangedAtMajorStep ( S ) ; } memcpy ( &
-_rtB -> B_29_44_0 [ 0 ] , & _rtX -> Integrator1_CSTATE [ 0 ] , 9U * sizeof (
-real_T ) ) ; } else { memcpy ( & _rtB -> B_29_44_0 [ 0 ] , & _rtX ->
-Integrator1_CSTATE [ 0 ] , 9U * sizeof ( real_T ) ) ; } rtPrevAction = _rtDW
--> If_ActiveSubsystem ; if ( ssIsMajorTimeStep ( S ) != 0 ) { rtAction = (
-int8_T ) ! _rtB -> B_12_0_1 ; _rtDW -> If_ActiveSubsystem = rtAction ; } else
-{ rtAction = _rtDW -> If_ActiveSubsystem ; } if ( rtPrevAction != rtAction )
-{ switch ( rtPrevAction ) { case 0 :
-ssSetBlockStateForSolverChangedAtMajorStep ( S ) ; break ; case 1 :
-ssSetBlockStateForSolverChangedAtMajorStep ( S ) ; break ; } } switch (
-rtAction ) { case 0 : if ( rtAction != rtPrevAction ) { if ( ssGetTaskTime (
-S , 0 ) != ssGetTStart ( S ) ) { ssSetBlockStateForSolverChangedAtMajorStep (
-S ) ; } } memcpy ( & _rtB -> B_29_50_0 [ 0 ] , & _rtB -> B_29_44_0 [ 0 ] , 9U
-* sizeof ( real_T ) ) ; if ( ssIsMajorTimeStep ( S ) != 0 ) { srUpdateBC (
-_rtDW -> ABNfromGyro_SubsysRanBC ) ; } break ; case 1 : if ( rtAction !=
-rtPrevAction ) { if ( ssGetTaskTime ( S , 0 ) != ssGetTStart ( S ) ) {
-ssSetBlockStateForSolverChangedAtMajorStep ( S ) ; } } memcpy ( & _rtB ->
-B_29_50_0 [ 0 ] , & _rtB -> B_13_0_1 [ 0 ] , 9U * sizeof ( real_T ) ) ; if (
-ssIsMajorTimeStep ( S ) != 0 ) { srUpdateBC ( _rtDW ->
-ABNfromWabhasproblem_SubsysRanBC ) ; } break ; } _rtB -> B_29_48_0 = _rtX ->
-Integrator_CSTATE_j ; ssCallAccelRunBlock ( S , 6 , 0 , SS_CALL_MDL_OUTPUTS )
-; ssCallAccelRunBlock ( S , 7 , 0 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 1 , 0 , SS_CALL_MDL_OUTPUTS ) ; isHit =
-ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0 ) { ssCallAccelRunBlock ( S , 3
-, 0 , SS_CALL_MDL_OUTPUTS ) ; } _rtB -> B_29_54_0 = ssGetT ( S ) ;
-ssCallAccelRunBlock ( S , 4 , 0 , SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock
-( S , 2 , 0 , SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 0 , 0 ,
-SS_CALL_MDL_OUTPUTS ) ; _rtB -> B_29_58_0 [ 0 ] = ( ( _rtB -> B_1_0_1 [ 0 ] +
-_rtB -> B_3_0_1 [ 0 ] ) + _rtB -> B_2_0_1 [ 0 ] ) + _rtB -> B_0_0_1 [ 0 ] ;
-_rtB -> B_29_59_0 [ 0 ] = _rtB -> B_15_0_4 [ 0 ] + _rtB -> B_29_58_0 [ 0 ] ;
-_rtB -> B_29_58_0 [ 1 ] = ( ( _rtB -> B_1_0_1 [ 1 ] + _rtB -> B_3_0_1 [ 1 ] )
-+ _rtB -> B_2_0_1 [ 1 ] ) + _rtB -> B_0_0_1 [ 1 ] ; _rtB -> B_29_59_0 [ 1 ] =
-_rtB -> B_15_0_4 [ 1 ] + _rtB -> B_29_58_0 [ 1 ] ; _rtB -> B_29_58_0 [ 2 ] =
-( ( _rtB -> B_1_0_1 [ 2 ] + _rtB -> B_3_0_1 [ 2 ] ) + _rtB -> B_2_0_1 [ 2 ] )
-+ _rtB -> B_0_0_1 [ 2 ] ; _rtB -> B_29_59_0 [ 2 ] = _rtB -> B_15_0_4 [ 2 ] +
-_rtB -> B_29_58_0 [ 2 ] ; ssCallAccelRunBlock ( S , 5 , 0 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 10 , 0 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 29 , 62 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 11 , 0 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 29 , 64 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 29 , 65 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 29 , 66 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 29 , 67 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 16 , 0 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 29 , 69 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 24 , 0 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 27 , 0 ,
-SS_CALL_MDL_OUTPUTS ) ; _rtB -> B_29_72_0 [ 0 ] = _rtB -> B_29_13_0 [ 0 ] -
-_rtB -> B_29_18_0 [ 0 ] ; _rtB -> B_29_72_0 [ 1 ] = _rtB -> B_29_13_0 [ 1 ] -
-_rtB -> B_29_18_0 [ 1 ] ; _rtB -> B_29_72_0 [ 2 ] = _rtB -> B_29_13_0 [ 2 ] -
-_rtB -> B_29_18_0 [ 2 ] ; ssCallAccelRunBlock ( S , 29 , 73 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 29 , 74 ,
-SS_CALL_MDL_OUTPUTS ) ; isHit = ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0
-) { _rtB -> B_29_75_0 [ 0 ] = _rtDW -> NextOutput_a [ 0 ] ; _rtB -> B_29_75_0
-[ 1 ] = _rtDW -> NextOutput_a [ 1 ] ; _rtB -> B_29_75_0 [ 2 ] = _rtDW ->
+ssGetT ( S ) ) ) ) ; tBuffer ++ ; uBuffer ++ ; } } } _rtB -> B_15_12_0 [ 0 ]
+= _rtB -> B_15_10_0 [ 0 ] - _rtB -> B_15_11_0 [ 0 ] ; _rtB -> B_15_12_0 [ 1 ]
+= _rtB -> B_15_10_0 [ 1 ] - _rtB -> B_15_11_0 [ 1 ] ; _rtB -> B_15_12_0 [ 2 ]
+= _rtB -> B_15_10_0 [ 2 ] - _rtB -> B_15_11_0 [ 2 ] ; for ( i = 0 ; i < 6 ; i
+++ ) { _rtB -> B_15_13_0 [ i ] = _rtX -> Integrator_CSTATE_l [ i ] ; } _rtB
+-> B_15_14_0 = _rtX -> Integrator_CSTATE_k ; ssCallAccelRunBlock ( S , 1 , 0
+, SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 15 , 16 ,
+SS_CALL_MDL_OUTPUTS ) ; _rtB -> B_15_17_0 [ 0 ] = _rtX -> Integrator_CSTATE_g
+[ 0 ] ; _rtB -> B_15_17_0 [ 1 ] = _rtX -> Integrator_CSTATE_g [ 1 ] ; _rtB ->
+B_15_17_0 [ 2 ] = _rtX -> Integrator_CSTATE_g [ 2 ] ; ssCallAccelRunBlock ( S
+, 0 , 0 , SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 15 , 19 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 15 , 20 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 15 , 21 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 15 , 22 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 12 , 0 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 6 , 0 , SS_CALL_MDL_OUTPUTS
+) ; ssCallAccelRunBlock ( S , 8 , 0 , SS_CALL_MDL_OUTPUTS ) ; _rtB ->
+B_15_26_0 = ssGetT ( S ) ; ssCallAccelRunBlock ( S , 9 , 0 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 7 , 0 , SS_CALL_MDL_OUTPUTS
+) ; ssCallAccelRunBlock ( S , 4 , 0 , SS_CALL_MDL_OUTPUTS ) ; _rtB ->
+B_15_30_0 [ 0 ] = ( ( _rtB -> B_6_0_1 [ 0 ] + _rtB -> B_8_0_1 [ 0 ] ) + _rtB
+-> B_7_0_1 [ 0 ] ) + _rtB -> B_4_0_1 [ 0 ] ; _rtB -> B_15_31_0 [ 0 ] = _rtB
+-> B_15_30_0 [ 0 ] + _rtB -> B_0_0_1 [ 0 ] ; _rtB -> B_15_30_0 [ 1 ] = ( (
+_rtB -> B_6_0_1 [ 1 ] + _rtB -> B_8_0_1 [ 1 ] ) + _rtB -> B_7_0_1 [ 1 ] ) +
+_rtB -> B_4_0_1 [ 1 ] ; _rtB -> B_15_31_0 [ 1 ] = _rtB -> B_15_30_0 [ 1 ] +
+_rtB -> B_0_0_1 [ 1 ] ; _rtB -> B_15_30_0 [ 2 ] = ( ( _rtB -> B_6_0_1 [ 2 ] +
+_rtB -> B_8_0_1 [ 2 ] ) + _rtB -> B_7_0_1 [ 2 ] ) + _rtB -> B_4_0_1 [ 2 ] ;
+_rtB -> B_15_31_0 [ 2 ] = _rtB -> B_15_30_0 [ 2 ] + _rtB -> B_0_0_1 [ 2 ] ;
+ssCallAccelRunBlock ( S , 15 , 32 , SS_CALL_MDL_OUTPUTS ) ;
+ssCallAccelRunBlock ( S , 15 , 33 , SS_CALL_MDL_OUTPUTS ) ;
+ssCallAccelRunBlock ( S , 15 , 34 , SS_CALL_MDL_OUTPUTS ) ;
+ssCallAccelRunBlock ( S , 15 , 35 , SS_CALL_MDL_OUTPUTS ) ;
+ssCallAccelRunBlock ( S , 2 , 0 , SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock
+( S , 15 , 37 , SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 10 , 0 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 13 , 0 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 15 , 40 ,
+SS_CALL_MDL_OUTPUTS ) ; i = ssIsSampleHit ( S , 1 , 0 ) ; if ( i != 0 ) {
+_rtB -> B_15_41_0 [ 0 ] = _rtDW -> NextOutput_o [ 0 ] ; _rtB -> B_15_41_0 [ 1
+] = _rtDW -> NextOutput_o [ 1 ] ; _rtB -> B_15_41_0 [ 2 ] = _rtDW ->
+NextOutput_o [ 2 ] ; } _rtB -> B_15_42_0 [ 0 ] = _rtX -> Integrator_CSTATE_f
+[ 0 ] ; _rtB -> B_15_44_0 [ 0 ] = ( _rtB -> B_15_41_0 [ 0 ] + _rtB ->
+B_15_42_0 [ 0 ] ) + _rtB -> B_15_17_0 [ 0 ] ; _rtB -> B_15_42_0 [ 1 ] = _rtX
+-> Integrator_CSTATE_f [ 1 ] ; _rtB -> B_15_44_0 [ 1 ] = ( _rtB -> B_15_41_0
+[ 1 ] + _rtB -> B_15_42_0 [ 1 ] ) + _rtB -> B_15_17_0 [ 1 ] ; _rtB ->
+B_15_42_0 [ 2 ] = _rtX -> Integrator_CSTATE_f [ 2 ] ; _rtB -> B_15_44_0 [ 2 ]
+= ( _rtB -> B_15_41_0 [ 2 ] + _rtB -> B_15_42_0 [ 2 ] ) + _rtB -> B_15_17_0 [
+2 ] ; i = ssIsSampleHit ( S , 1 , 0 ) ; if ( i != 0 ) { _rtB -> B_15_45_0 [ 0
+] = _rtB -> B_15_44_0 [ 0 ] ; _rtB -> B_15_45_0 [ 1 ] = _rtB -> B_15_44_0 [ 1
+] ; _rtB -> B_15_45_0 [ 2 ] = _rtB -> B_15_44_0 [ 2 ] ; } ssCallAccelRunBlock
+( S , 14 , 0 , SS_CALL_MDL_OUTPUTS ) ; _rtB -> B_15_47_0 [ 0 ] = _rtB ->
+B_15_17_0 [ 0 ] - _rtB -> B_15_45_0 [ 0 ] ; _rtB -> B_15_47_0 [ 1 ] = _rtB ->
+B_15_17_0 [ 1 ] - _rtB -> B_15_45_0 [ 1 ] ; _rtB -> B_15_47_0 [ 2 ] = _rtB ->
+B_15_17_0 [ 2 ] - _rtB -> B_15_45_0 [ 2 ] ; ssCallAccelRunBlock ( S , 15 , 48
+, SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 15 , 49 ,
+SS_CALL_MDL_OUTPUTS ) ; i = ssIsSampleHit ( S , 1 , 0 ) ; if ( i != 0 ) {
+_rtB -> B_15_50_0 [ 0 ] = _rtDW -> NextOutput_a [ 0 ] ; _rtB -> B_15_50_0 [ 1
+] = _rtDW -> NextOutput_a [ 1 ] ; _rtB -> B_15_50_0 [ 2 ] = _rtDW ->
 NextOutput_a [ 2 ] ; } UNUSED_PARAMETER ( tid ) ; } static void
-mdlOutputsTID2 ( SimStruct * S , int_T tid ) { B_detumbling_T * _rtB ;
+mdlOutputsTID3 ( SimStruct * S , int_T tid ) { B_detumbling_T * _rtB ;
 P_detumbling_T * _rtP ; _rtP = ( ( P_detumbling_T * ) ssGetModelRtp ( S ) ) ;
-_rtB = ( ( B_detumbling_T * ) _ssGetModelBlockIO ( S ) ) ; _rtB -> B_29_0_0_m
-= _rtP -> P_27 ; memcpy ( & _rtB -> B_29_1_0_c [ 0 ] , & _rtP -> P_28 [ 0 ] ,
-9U * sizeof ( real_T ) ) ; memcpy ( & _rtB -> B_29_2_0_k [ 0 ] , & _rtP ->
-P_29 [ 0 ] , 9U * sizeof ( real_T ) ) ; _rtB -> B_29_3_0 [ 0 ] = _rtP -> P_30
-[ 0 ] ; _rtB -> B_29_3_0 [ 1 ] = _rtP -> P_30 [ 1 ] ; _rtB -> B_29_3_0 [ 2 ]
-= _rtP -> P_30 [ 2 ] ; _rtB -> B_29_4_0_c = _rtP -> P_31 ; _rtB -> B_29_5_0 =
-_rtP -> P_32 ; memcpy ( & _rtB -> B_29_6_0 [ 0 ] , & _rtP -> P_33 [ 0 ] , 14U
-* sizeof ( real_T ) ) ; memcpy ( & _rtB -> B_29_7_0_b [ 0 ] , & _rtP -> P_34
-[ 0 ] , 14U * sizeof ( real_T ) ) ; memcpy ( & _rtB -> B_29_8_0_p [ 0 ] , &
-_rtP -> P_35 [ 0 ] , 42U * sizeof ( real_T ) ) ; memcpy ( & _rtB -> B_29_9_0
-[ 0 ] , & _rtP -> P_36 [ 0 ] , 42U * sizeof ( real_T ) ) ; memcpy ( & _rtB ->
-B_29_10_0_c [ 0 ] , & _rtP -> P_37 [ 0 ] , 14U * sizeof ( real_T ) ) ; memcpy
-( & _rtB -> B_29_11_0_f [ 0 ] , & _rtP -> P_38 [ 0 ] , 42U * sizeof ( real_T
-) ) ; memcpy ( & _rtB -> B_29_12_0_g [ 0 ] , & _rtP -> P_39 [ 0 ] , 42U *
-sizeof ( real_T ) ) ; memcpy ( & _rtB -> B_29_13_0_g [ 0 ] , & _rtP -> P_40 [
-0 ] , 14U * sizeof ( real_T ) ) ; _rtB -> B_29_18_0_m = _rtP -> P_41 ; _rtB
--> B_29_19_0_n = _rtP -> P_42 ; _rtB -> B_29_20_0_p = _rtP -> P_43 ; _rtB ->
-B_29_21_0 = _rtP -> P_44 ; _rtB -> B_29_22_0 = _rtP -> P_45 ; _rtB ->
-B_29_26_0 = _rtP -> P_47 ; _rtB -> B_29_31_0_l = _rtP -> P_49 ; _rtB ->
-B_29_32_0 = _rtP -> P_50 ; _rtB -> B_29_33_0 = _rtP -> P_51 ; _rtB ->
-B_29_34_0 = _rtP -> P_52 ; _rtB -> B_29_35_0_j = _rtP -> P_53 ; _rtB ->
-B_29_37_0 = _rtP -> P_55 ; _rtB -> B_29_29_0 [ 0 ] = _rtP -> P_48 [ 0 ] ;
-_rtB -> B_29_36_0_d [ 0 ] = _rtP -> P_54 [ 0 ] ; _rtB -> B_29_38_0_g [ 0 ] =
-_rtP -> P_56 [ 0 ] ; _rtB -> B_29_29_0 [ 1 ] = _rtP -> P_48 [ 1 ] ; _rtB ->
-B_29_36_0_d [ 1 ] = _rtP -> P_54 [ 1 ] ; _rtB -> B_29_38_0_g [ 1 ] = _rtP ->
-P_56 [ 1 ] ; _rtB -> B_29_29_0 [ 2 ] = _rtP -> P_48 [ 2 ] ; _rtB ->
-B_29_36_0_d [ 2 ] = _rtP -> P_54 [ 2 ] ; _rtB -> B_29_38_0_g [ 2 ] = _rtP ->
-P_56 [ 2 ] ; memcpy ( & _rtB -> B_29_25_0 [ 0 ] , & _rtP -> P_46 [ 0 ] , 9U *
-sizeof ( real_T ) ) ; memcpy ( & _rtB -> B_29_40_0_l [ 0 ] , & _rtP -> P_57 [
-0 ] , 9U * sizeof ( real_T ) ) ; _rtB -> B_29_41_0_d [ 0 ] = _rtP -> P_58 [ 0
-] ; _rtB -> B_29_41_0_d [ 1 ] = _rtP -> P_58 [ 1 ] ; _rtB -> B_29_41_0_d [ 2
-] = _rtP -> P_58 [ 2 ] ; _rtB -> B_29_42_0 = _rtP -> P_59 ; _rtB -> B_29_43_0
-= _rtP -> P_60 ; memcpy ( & _rtB -> B_29_44_0_d [ 0 ] , & _rtP -> P_61 [ 0 ]
-, 14U * sizeof ( real_T ) ) ; memcpy ( & _rtB -> B_29_45_0 [ 0 ] , & _rtP ->
-P_62 [ 0 ] , 14U * sizeof ( real_T ) ) ; memcpy ( & _rtB -> B_29_46_0 [ 0 ] ,
-& _rtP -> P_63 [ 0 ] , 42U * sizeof ( real_T ) ) ; memcpy ( & _rtB ->
-B_29_47_0 [ 0 ] , & _rtP -> P_64 [ 0 ] , 42U * sizeof ( real_T ) ) ; memcpy (
-& _rtB -> B_29_48_0_l [ 0 ] , & _rtP -> P_65 [ 0 ] , 14U * sizeof ( real_T )
-) ; memcpy ( & _rtB -> B_29_49_0 [ 0 ] , & _rtP -> P_66 [ 0 ] , 42U * sizeof
-( real_T ) ) ; memcpy ( & _rtB -> B_29_50_0_o [ 0 ] , & _rtP -> P_67 [ 0 ] ,
-42U * sizeof ( real_T ) ) ; memcpy ( & _rtB -> B_29_51_0 [ 0 ] , & _rtP ->
-P_68 [ 0 ] , 14U * sizeof ( real_T ) ) ; _rtB -> B_29_56_0 = _rtP -> P_69 ;
-_rtB -> B_29_57_0 = _rtP -> P_70 ; _rtB -> B_29_58_0_b = _rtP -> P_71 ; _rtB
--> B_29_59_0_n = _rtP -> P_72 ; _rtB -> B_29_60_0 = _rtP -> P_73 ; memcpy ( &
-_rtB -> B_29_63_0 [ 0 ] , & _rtP -> P_74 [ 0 ] , 9U * sizeof ( real_T ) ) ;
-memcpy ( & _rtB -> B_29_65_0 [ 0 ] , & _rtP -> P_75 [ 0 ] , 9U * sizeof (
-real_T ) ) ; _rtB -> B_29_66_0 = _rtP -> P_76 ; UNUSED_PARAMETER ( tid ) ; }
+_rtB = ( ( B_detumbling_T * ) _ssGetModelBlockIO ( S ) ) ; _rtB -> B_15_2_0_c
+= _rtP -> P_19 ; _rtB -> B_15_3_0 = _rtP -> P_20 ; _rtB -> B_15_4_0_k = _rtP
+-> P_21 ; _rtB -> B_15_5_0 = _rtP -> P_22 ; _rtB -> B_15_6_0 = _rtP -> P_23 ;
+_rtB -> B_15_8_0_b = _rtP -> P_25 ; _rtB -> B_15_0_0_m [ 0 ] = _rtP -> P_18 [
+0 ] ; _rtB -> B_15_7_0_c [ 0 ] = _rtP -> P_24 [ 0 ] ; _rtB -> B_15_9_0_p [ 0
+] = _rtP -> P_26 [ 0 ] ; _rtB -> B_15_0_0_m [ 1 ] = _rtP -> P_18 [ 1 ] ; _rtB
+-> B_15_7_0_c [ 1 ] = _rtP -> P_24 [ 1 ] ; _rtB -> B_15_9_0_p [ 1 ] = _rtP ->
+P_26 [ 1 ] ; _rtB -> B_15_0_0_m [ 2 ] = _rtP -> P_18 [ 2 ] ; _rtB ->
+B_15_7_0_c [ 2 ] = _rtP -> P_24 [ 2 ] ; _rtB -> B_15_9_0_p [ 2 ] = _rtP ->
+P_26 [ 2 ] ; memcpy ( & _rtB -> B_15_11_0_c [ 0 ] , & _rtP -> P_27 [ 0 ] , 9U
+* sizeof ( real_T ) ) ; _rtB -> B_15_12_0_f [ 0 ] = _rtP -> P_28 [ 0 ] ; _rtB
+-> B_15_12_0_f [ 1 ] = _rtP -> P_28 [ 1 ] ; _rtB -> B_15_12_0_f [ 2 ] = _rtP
+-> P_28 [ 2 ] ; _rtB -> B_15_13_0_g = _rtP -> P_29 ; _rtB -> B_15_14_0_g =
+_rtP -> P_30 ; memcpy ( & _rtB -> B_15_15_0 [ 0 ] , & _rtP -> P_31 [ 0 ] ,
+14U * sizeof ( real_T ) ) ; memcpy ( & _rtB -> B_15_16_0 [ 0 ] , & _rtP ->
+P_32 [ 0 ] , 14U * sizeof ( real_T ) ) ; memcpy ( & _rtB -> B_15_17_0_m [ 0 ]
+, & _rtP -> P_33 [ 0 ] , 42U * sizeof ( real_T ) ) ; memcpy ( & _rtB ->
+B_15_18_0 [ 0 ] , & _rtP -> P_34 [ 0 ] , 42U * sizeof ( real_T ) ) ; memcpy (
+& _rtB -> B_15_19_0 [ 0 ] , & _rtP -> P_35 [ 0 ] , 14U * sizeof ( real_T ) )
+; memcpy ( & _rtB -> B_15_20_0 [ 0 ] , & _rtP -> P_36 [ 0 ] , 42U * sizeof (
+real_T ) ) ; memcpy ( & _rtB -> B_15_21_0 [ 0 ] , & _rtP -> P_37 [ 0 ] , 42U
+* sizeof ( real_T ) ) ; memcpy ( & _rtB -> B_15_22_0 [ 0 ] , & _rtP -> P_38 [
+0 ] , 14U * sizeof ( real_T ) ) ; _rtB -> B_15_27_0 = _rtP -> P_39 ; _rtB ->
+B_15_28_0 = _rtP -> P_40 ; _rtB -> B_15_29_0 = _rtP -> P_41 ; _rtB ->
+B_15_30_0_n = _rtP -> P_42 ; _rtB -> B_15_31_0_p = _rtP -> P_43 ; memcpy ( &
+_rtB -> B_15_34_0 [ 0 ] , & _rtP -> P_44 [ 0 ] , 9U * sizeof ( real_T ) ) ;
+memcpy ( & _rtB -> B_15_36_0 [ 0 ] , & _rtP -> P_45 [ 0 ] , 9U * sizeof (
+real_T ) ) ; _rtB -> B_15_37_0 = _rtP -> P_46 ; _rtB -> B_15_38_0 = _rtP ->
+P_47 ; UNUSED_PARAMETER ( tid ) ; }
 #define MDL_UPDATE
 static void mdlUpdate ( SimStruct * S , int_T tid ) { B_detumbling_T * _rtB ;
 DW_detumbling_T * _rtDW ; P_detumbling_T * _rtP ; int32_T isHit ; _rtDW = ( (
 DW_detumbling_T * ) ssGetRootDWork ( S ) ) ; _rtP = ( ( P_detumbling_T * )
 ssGetModelRtp ( S ) ) ; _rtB = ( ( B_detumbling_T * ) _ssGetModelBlockIO ( S
-) ) ; isHit = ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0 ) { _rtDW ->
+) ) ; isHit = ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit != 0 ) { _rtDW ->
 NextOutput [ 0 ] = rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed [ 0 ] ) *
 _rtP -> P_3 [ 0 ] + _rtP -> P_2 ; _rtDW -> NextOutput [ 1 ] =
 rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed [ 1 ] ) * _rtP -> P_3 [ 1 ]
@@ -316,7 +233,7 @@ tBuffer , uBuffer , ( NULL ) , ( boolean_T ) 0 , false , & _rtDW ->
 TransportDelay_IWORK . MaxNewBufSize ) ) { ssSetErrorStatus ( S ,
 "tdelay memory allocation error" ) ; return ; } } ( * tBuffer ++ ) [ _rtDW ->
 TransportDelay_IWORK . Head [ 0 ] ] = simTime ; ( * uBuffer ++ ) [ _rtDW ->
-TransportDelay_IWORK . Head [ 0 ] ] = _rtB -> B_29_10_0 [ 0 ] ; _rtDW ->
+TransportDelay_IWORK . Head [ 0 ] ] = _rtB -> B_15_10_0 [ 0 ] ; _rtDW ->
 TransportDelay_IWORK . Head [ 1 ] = ( ( _rtDW -> TransportDelay_IWORK . Head
 [ 1 ] < ( _rtDW -> TransportDelay_IWORK . CircularBufSize [ 1 ] - 1 ) ) ? (
 _rtDW -> TransportDelay_IWORK . Head [ 1 ] + 1 ) : 0 ) ; if ( _rtDW ->
@@ -329,7 +246,7 @@ tBuffer , uBuffer , ( NULL ) , ( boolean_T ) 0 , false , & _rtDW ->
 TransportDelay_IWORK . MaxNewBufSize ) ) { ssSetErrorStatus ( S ,
 "tdelay memory allocation error" ) ; return ; } } ( * tBuffer ++ ) [ _rtDW ->
 TransportDelay_IWORK . Head [ 1 ] ] = simTime ; ( * uBuffer ++ ) [ _rtDW ->
-TransportDelay_IWORK . Head [ 1 ] ] = _rtB -> B_29_10_0 [ 1 ] ; _rtDW ->
+TransportDelay_IWORK . Head [ 1 ] ] = _rtB -> B_15_10_0 [ 1 ] ; _rtDW ->
 TransportDelay_IWORK . Head [ 2 ] = ( ( _rtDW -> TransportDelay_IWORK . Head
 [ 2 ] < ( _rtDW -> TransportDelay_IWORK . CircularBufSize [ 2 ] - 1 ) ) ? (
 _rtDW -> TransportDelay_IWORK . Head [ 2 ] + 1 ) : 0 ) ; if ( _rtDW ->
@@ -342,65 +259,47 @@ tBuffer , uBuffer , ( NULL ) , ( boolean_T ) 0 , false , & _rtDW ->
 TransportDelay_IWORK . MaxNewBufSize ) ) { ssSetErrorStatus ( S ,
 "tdelay memory allocation error" ) ; return ; } } ( * tBuffer ) [ _rtDW ->
 TransportDelay_IWORK . Head [ 2 ] ] = simTime ; ( * uBuffer ) [ _rtDW ->
-TransportDelay_IWORK . Head [ 2 ] ] = _rtB -> B_29_10_0 [ 2 ] ; } isHit =
+TransportDelay_IWORK . Head [ 2 ] ] = _rtB -> B_15_10_0 [ 2 ] ; } isHit =
 ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0 ) { _rtDW -> NextOutput_o [ 0 ]
-= rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed_d [ 0 ] ) * _rtP -> P_10 [
-0 ] + _rtP -> P_9 ; _rtDW -> NextOutput_o [ 1 ] = rt_nrand_Upu32_Yd_f_pw_snf
-( & _rtDW -> RandSeed_d [ 1 ] ) * _rtP -> P_10 [ 1 ] + _rtP -> P_9 ; _rtDW ->
-NextOutput_o [ 2 ] = rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed_d [ 2 ]
-) * _rtP -> P_10 [ 2 ] + _rtP -> P_9 ; } _rtDW -> Integrator_IWORK = 0 ;
-isHit = ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0 ) { _rtDW ->
-NextOutput_m [ 0 ] = rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed_i [ 0 ]
-) * _rtP -> P_18 [ 0 ] + _rtP -> P_17 ; _rtDW -> NextOutput_m [ 1 ] =
-rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed_i [ 1 ] ) * _rtP -> P_18 [ 1
-] + _rtP -> P_17 ; _rtDW -> NextOutput_m [ 2 ] = rt_nrand_Upu32_Yd_f_pw_snf (
-& _rtDW -> RandSeed_i [ 2 ] ) * _rtP -> P_18 [ 2 ] + _rtP -> P_17 ; _rtDW ->
-NextOutput_m [ 3 ] = rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed_i [ 3 ]
-) * _rtP -> P_18 [ 3 ] + _rtP -> P_17 ; for ( isHit = 0 ; isHit < 8 ; isHit
-++ ) { _rtDW -> NextOutput_f [ isHit ] = rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW
--> RandSeed_a [ isHit ] ) * _rtP -> P_15 [ isHit ] + _rtP -> P_14 ; _rtDW ->
-UniformRandomNumber_NextOutput [ isHit ] = ( _rtP -> P_21 - _rtP -> P_20 ) *
-rt_urand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed_h [ isHit ] ) + _rtP -> P_20
-; } } _rtDW -> Integrator1_IWORK = 0 ; isHit = ssIsSampleHit ( S , 1 , 0 ) ;
-if ( isHit != 0 ) { _rtDW -> NextOutput_a [ 0 ] = rt_nrand_Upu32_Yd_f_pw_snf
-( & _rtDW -> RandSeed_i5 [ 0 ] ) * _rtP -> P_25 [ 0 ] + _rtP -> P_24 ; _rtDW
--> NextOutput_a [ 1 ] = rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed_i5 [
-1 ] ) * _rtP -> P_25 [ 1 ] + _rtP -> P_24 ; _rtDW -> NextOutput_a [ 2 ] =
-rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed_i5 [ 2 ] ) * _rtP -> P_25 [
-2 ] + _rtP -> P_24 ; } UNUSED_PARAMETER ( tid ) ; }
+= rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed_d [ 0 ] ) * _rtP -> P_12 [
+0 ] + _rtP -> P_11 ; _rtDW -> NextOutput_a [ 0 ] = rt_nrand_Upu32_Yd_f_pw_snf
+( & _rtDW -> RandSeed_i [ 0 ] ) * _rtP -> P_16 [ 0 ] + _rtP -> P_15 ; _rtDW
+-> NextOutput_o [ 1 ] = rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed_d [
+1 ] ) * _rtP -> P_12 [ 1 ] + _rtP -> P_11 ; _rtDW -> NextOutput_a [ 1 ] =
+rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed_i [ 1 ] ) * _rtP -> P_16 [ 1
+] + _rtP -> P_15 ; _rtDW -> NextOutput_o [ 2 ] = rt_nrand_Upu32_Yd_f_pw_snf (
+& _rtDW -> RandSeed_d [ 2 ] ) * _rtP -> P_12 [ 2 ] + _rtP -> P_11 ; _rtDW ->
+NextOutput_a [ 2 ] = rt_nrand_Upu32_Yd_f_pw_snf ( & _rtDW -> RandSeed_i [ 2 ]
+) * _rtP -> P_16 [ 2 ] + _rtP -> P_15 ; } UNUSED_PARAMETER ( tid ) ; }
 #define MDL_UPDATE
-static void mdlUpdateTID2 ( SimStruct * S , int_T tid ) { UNUSED_PARAMETER (
+static void mdlUpdateTID3 ( SimStruct * S , int_T tid ) { UNUSED_PARAMETER (
 tid ) ; }
 #define MDL_DERIVATIVES
 static void mdlDerivatives ( SimStruct * S ) { B_detumbling_T * _rtB ;
-XDot_detumbling_T * _rtXdot ; _rtXdot = ( ( XDot_detumbling_T * ) ssGetdX ( S
-) ) ; _rtB = ( ( B_detumbling_T * ) _ssGetModelBlockIO ( S ) ) ; _rtXdot ->
-Integrator_CSTATE = _rtB -> B_24_0_1 ; _rtXdot -> Integrator_CSTATE_g [ 0 ] =
-_rtB -> B_27_0_1 [ 0 ] ; _rtXdot -> Integrator_CSTATE_f [ 0 ] = _rtB ->
-B_29_75_0 [ 0 ] ; _rtXdot -> Integrator_CSTATE_l [ 0 ] = _rtB -> B_11_0_1 [ 0
-] ; _rtXdot -> Integrator_CSTATE_g [ 1 ] = _rtB -> B_27_0_1 [ 1 ] ; _rtXdot
--> Integrator_CSTATE_f [ 1 ] = _rtB -> B_29_75_0 [ 1 ] ; _rtXdot ->
-Integrator_CSTATE_l [ 1 ] = _rtB -> B_11_0_1 [ 1 ] ; _rtXdot ->
-Integrator_CSTATE_g [ 2 ] = _rtB -> B_27_0_1 [ 2 ] ; _rtXdot ->
-Integrator_CSTATE_f [ 2 ] = _rtB -> B_29_75_0 [ 2 ] ; _rtXdot ->
-Integrator_CSTATE_l [ 2 ] = _rtB -> B_11_0_1 [ 2 ] ; _rtXdot ->
-Integrator_CSTATE_k = _rtB -> B_15_0_2 ; memcpy ( & _rtXdot ->
-Integrator_CSTATE_d [ 0 ] , & _rtB -> B_16_0_1 [ 0 ] , 9U * sizeof ( real_T )
-) ; memcpy ( & _rtXdot -> Integrator1_CSTATE [ 0 ] , & _rtB -> B_10_0_1 [ 0 ]
-, 9U * sizeof ( real_T ) ) ; _rtXdot -> Integrator_CSTATE_j = _rtB -> B_5_0_1
-; } static void mdlInitializeSizes ( SimStruct * S ) { ssSetChecksumVal ( S ,
-0 , 3786460322U ) ; ssSetChecksumVal ( S , 1 , 829159311U ) ;
-ssSetChecksumVal ( S , 2 , 3801674449U ) ; ssSetChecksumVal ( S , 3 ,
-579292396U ) ; { mxArray * slVerStructMat = NULL ; mxArray * slStrMat =
-mxCreateString ( "simulink" ) ; char slVerChar [ 10 ] ; int status =
-mexCallMATLAB ( 1 , & slVerStructMat , 1 , & slStrMat , "ver" ) ; if ( status
-== 0 ) { mxArray * slVerMat = mxGetField ( slVerStructMat , 0 , "Version" ) ;
-if ( slVerMat == NULL ) { status = 1 ; } else { status = mxGetString (
-slVerMat , slVerChar , 10 ) ; } } mxDestroyArray ( slStrMat ) ;
-mxDestroyArray ( slVerStructMat ) ; if ( ( status == 1 ) || ( strcmp (
-slVerChar , "10.2" ) != 0 ) ) { return ; } } ssSetOptions ( S ,
-SS_OPTION_EXCEPTION_FREE_CODE ) ; if ( ssGetSizeofDWork ( S ) != sizeof (
-DW_detumbling_T ) ) { ssSetErrorStatus ( S ,
+XDot_detumbling_T * _rtXdot ; int32_T i ; _rtXdot = ( ( XDot_detumbling_T * )
+ssGetdX ( S ) ) ; _rtB = ( ( B_detumbling_T * ) _ssGetModelBlockIO ( S ) ) ;
+_rtXdot -> Integrator_CSTATE = _rtB -> B_10_0_1 ; memcpy ( & _rtXdot ->
+Integrator_CSTATE_d [ 0 ] , & _rtB -> B_2_0_1 [ 0 ] , 9U * sizeof ( real_T )
+) ; for ( i = 0 ; i < 6 ; i ++ ) { _rtXdot -> Integrator_CSTATE_l [ i ] =
+_rtB -> B_14_0_1 [ i ] ; } _rtXdot -> Integrator_CSTATE_k = _rtB -> B_1_0_2 ;
+_rtXdot -> Integrator_CSTATE_g [ 0 ] = _rtB -> B_13_0_1 [ 0 ] ; _rtXdot ->
+Integrator_CSTATE_f [ 0 ] = _rtB -> B_15_50_0 [ 0 ] ; _rtXdot ->
+Integrator_CSTATE_g [ 1 ] = _rtB -> B_13_0_1 [ 1 ] ; _rtXdot ->
+Integrator_CSTATE_f [ 1 ] = _rtB -> B_15_50_0 [ 1 ] ; _rtXdot ->
+Integrator_CSTATE_g [ 2 ] = _rtB -> B_13_0_1 [ 2 ] ; _rtXdot ->
+Integrator_CSTATE_f [ 2 ] = _rtB -> B_15_50_0 [ 2 ] ; } static void
+mdlInitializeSizes ( SimStruct * S ) { ssSetChecksumVal ( S , 0 , 3865097253U
+) ; ssSetChecksumVal ( S , 1 , 3428761445U ) ; ssSetChecksumVal ( S , 2 ,
+2479277938U ) ; ssSetChecksumVal ( S , 3 , 2820953382U ) ; { mxArray *
+slVerStructMat = NULL ; mxArray * slStrMat = mxCreateString ( "simulink" ) ;
+char slVerChar [ 10 ] ; int status = mexCallMATLAB ( 1 , & slVerStructMat , 1
+, & slStrMat , "ver" ) ; if ( status == 0 ) { mxArray * slVerMat = mxGetField
+( slVerStructMat , 0 , "Version" ) ; if ( slVerMat == NULL ) { status = 1 ; }
+else { status = mxGetString ( slVerMat , slVerChar , 10 ) ; } }
+mxDestroyArray ( slStrMat ) ; mxDestroyArray ( slVerStructMat ) ; if ( (
+status == 1 ) || ( strcmp ( slVerChar , "10.2" ) != 0 ) ) { return ; } }
+ssSetOptions ( S , SS_OPTION_EXCEPTION_FREE_CODE ) ; if ( ssGetSizeofDWork (
+S ) != sizeof ( DW_detumbling_T ) ) { ssSetErrorStatus ( S ,
 "Unexpected error: Internal DWork sizes do "
 "not match for accelerator mex file." ) ; } if ( ssGetSizeofGlobalBlockIO ( S
 ) != sizeof ( B_detumbling_T ) ) { ssSetErrorStatus ( S ,
@@ -442,30 +341,6 @@ SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 13 ) ; callSysFcns =
 ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
 SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 14 ) ; callSysFcns =
 ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
-SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 15 ) ; callSysFcns =
-ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
-SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 16 ) ; callSysFcns =
-ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
-SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 17 ) ; callSysFcns =
-ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
-SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 18 ) ; callSysFcns =
-ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
-SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 19 ) ; callSysFcns =
-ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
-SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 20 ) ; callSysFcns =
-ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
-SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 21 ) ; callSysFcns =
-ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
-SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 22 ) ; callSysFcns =
-ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
-SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 23 ) ; callSysFcns =
-ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
-SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 24 ) ; callSysFcns =
-ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
-SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 25 ) ; callSysFcns =
-ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
-SysOutputFcn ) ( NULL ) ; childS = ssGetSFunction ( S , 26 ) ; callSysFcns =
-ssGetCallSystemOutputFcnList ( childS ) ; callSysFcns [ 3 + 0 ] = (
-SysOutputFcn ) ( NULL ) ; } slAccRegPrmChangeFcn ( S , mdlOutputsTID2 ) ; }
+SysOutputFcn ) ( NULL ) ; } slAccRegPrmChangeFcn ( S , mdlOutputsTID3 ) ; }
 static void mdlTerminate ( SimStruct * S ) { }
 #include "simulink.c"

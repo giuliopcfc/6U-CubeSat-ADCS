@@ -23,12 +23,14 @@
 #ifndef __RTW_UTFREE__
 extern void * utMalloc ( size_t ) ; extern void utFree ( void * ) ;
 #endif
-boolean_T Copy_of_detumbling_acc_rt_TDelayUpdateTailOrGrowBuf ( int_T *
-bufSzPtr , int_T * tailPtr , int_T * headPtr , int_T * lastPtr , real_T
-tMinusDelay , real_T * * tBufPtr , real_T * * uBufPtr , real_T * * xBufPtr ,
-boolean_T isfixedbuf , boolean_T istransportdelay , int_T * maxNewBufSzPtr )
-; real_T Copy_of_detumbling_acc_rt_TDelayInterpolate ( real_T tMinusDelay ,
-real_T tStart , real_T * tBuf , real_T * uBuf , int_T bufSz , int_T * lastIdx
-, int_T oldestIdx , int_T newIdx , real_T initOutput , boolean_T discrete ,
+extern real_T rt_urand_Upu32_Yd_f_pw_snf ( uint32_T * u ) ; extern real_T
+rt_nrand_Upu32_Yd_f_pw_snf ( uint32_T * u ) ; boolean_T
+Copy_of_detumbling_acc_rt_TDelayUpdateTailOrGrowBuf ( int_T * bufSzPtr ,
+int_T * tailPtr , int_T * headPtr , int_T * lastPtr , real_T tMinusDelay ,
+real_T * * tBufPtr , real_T * * uBufPtr , real_T * * xBufPtr , boolean_T
+isfixedbuf , boolean_T istransportdelay , int_T * maxNewBufSzPtr ) ; real_T
+Copy_of_detumbling_acc_rt_TDelayInterpolate ( real_T tMinusDelay , real_T
+tStart , real_T * tBuf , real_T * uBuf , int_T bufSz , int_T * lastIdx ,
+int_T oldestIdx , int_T newIdx , real_T initOutput , boolean_T discrete ,
 boolean_T minorStepAndTAtLastMajorOutput ) ;
 #endif

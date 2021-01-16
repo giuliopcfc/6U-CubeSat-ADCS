@@ -31,7 +31,7 @@ quiver3(0,0,0,0,0,3,'k','linewidth',2.4)
 axis equal
 set(gca,'XColor','none','YColor','none','ZColor','none');
 
-% print(gcf,'foo.pdf','-dpng','-r600');
+% print(gcf,'cubesat.png','-dpng','-r600');
 %% 
 function plotcube(varargin)
 % PLOTCUBE - Display a 3D-cube in the current axes

@@ -86,8 +86,8 @@ MATLAB_BIN           = C:/Program Files/MATLAB/R2020b/bin
 ALT_MATLAB_BIN       = C:/PROGRA~1/MATLAB/R2020b/bin
 START_DIR            = C:/Users/pacif/OneDrive/Desktop/PoliMi/SPACEC~2/SADC-P~1/code
 S_FUNCTIONS_LIB      = 
-NUMST                = 2
-NCSTATES             = 30
+NUMST                = 3
+NCSTATES             = 23
 BUILDARGS            =  OPTS="-DTID01EQ=0"
 MULTITASKING         = 0
 INTEGER_CODE         = 0
