@@ -67,10 +67,10 @@ for i = 1:N
     data.drag.rSurf = data.SRP.rSurf;
     
     %%%%%% Simulation: %%%%%% 
-    outPointing = sim('pointingMonteCarlo',tspan);
+    outPointingMC = sim('pointingMonteCarlo',tspan);
     
     %%%%%% Store Results: %%%%%% 
-    errZI = outPointing.pointingErr.Data(:);
+    errZI = outPointingMC.pointingErr.Data(:);
     
     errZ(:,i) = errZI;
     
@@ -84,9 +84,10 @@ for i = 1:N
     figure(2),
     clf('reset')
     hold on, grid on,box on
+    plot(tspan,meanArr(:,i),'r','linewidth',1.5)
     plot(tspan,meanArr(:,i) + stdArr(:,i),'-.k','linewidth',1.5)
     plot(tspan,meanArr(:,i) - stdArr(:,i),'-.k','linewidth',1.5)
-    plot(tspan,meanArr(:,i),'r','linewidth',1.5)
+    legend('Mean Response','Mean Response $\pm \sigma(t)$')
     hold off
 
 end

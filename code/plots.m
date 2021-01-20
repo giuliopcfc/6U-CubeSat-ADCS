@@ -1,6 +1,5 @@
-%% Setup for the plots:
-
-set(0,'defaultTextInterpreter','latex','defaultAxesFontSize',13);
+% Setup for the plots:
+set(0,'defaultTextInterpreter','latex','defaultAxesFontSize',15);
 set(0,'defaultAxesTickLabelInterpreter','latex');
 set(0, 'defaultLegendInterpreter','latex');
 

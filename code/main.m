@@ -91,15 +91,8 @@ finalPointing.xObs = outPointing.xObs.Data(end,:)';
 
 save finalPointing finalPointing
 
-
 %% Save Results:
 save results outDetumbling outSlew outPointing
-
-%% Monte Carlo Simulation:
-
-if 0 
-    montecarlo
-end
 
 %% Plots
 

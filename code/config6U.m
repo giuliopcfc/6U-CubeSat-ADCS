@@ -62,13 +62,13 @@ data.drag.rho = 1.454*1e-13; % From CIRA-72 Model
 %% Star Sensor:
 data.starSensor.FOV = 20*pi/180;
 data.starSensor.ABS = [0 1 0; 0 0 1; 1 0 0]';
-data.starSensor.sampleTime = 1;
+data.starSensor.sampleTime = 0.1;
 data.starSensor.NStars = 4;
 data.starSensor.sigmaCross = 1.5/3600*pi/180;
 data.starSensor.sigmaRoll = 9/3600*pi/180;
 
 %% Gyroscope:
-sampleTime = 0.1;
+sampleTime = 0.01;
 data.gyroscope.sampleTime = sampleTime;
 data.gyroscope.sigmaN = 0.15*pi/180/sqrt(3600)/sqrt(sampleTime);
 data.gyroscope.sigmaB = 3e-4*pi/180/sqrt(3600)/sqrt(sampleTime);
@@ -79,7 +79,7 @@ data.gyroscope.b0 = [1;1;1]*0.3*pi/180/3600;
 
 %% Magnetometer:
 data.magnetometer.sigma = 16e-9;
-data.magnetometer.sampleTime = 1;
+data.magnetometer.sampleTime = 0.1;
 rho = 1*pi/180; phi = -rho; lambda = rho;
 data.magnetometer.nonOrthogonality = [  1               0               0;
                                         sin(rho)        cos(rho)        0;
@@ -92,26 +92,29 @@ data.reactionWheel.MMax = 1e-3;
 data.reactionWheel.h0 = 0;
 
 %% Magnetorquer:
-data.magnetorquer.DMax = [0.3; 0.3; 0.34];
+data.magnetorquer.DMax =[0.3; 0.3; 0.34];
 
 %% Detumbling:
-data.detumbling.tDamping = 3500;
+data.detumbling.tDamping = 3000;
 data.detumbling.kDamping = 1e7;
 data.detumbling.tProp = 500 + data.detumbling.tDamping;
-data.detumbling.kProp = 1e-1;
+data.detumbling.kProp = 1e-2;
 
 %% Slew Motion:
-data.slew.kWE = 1;
-data.slew.kAE = 2e-3;
+data.slew.kWE = 1e-2;
+data.slew.kAE = 1e-4;
 
 %% Pointing:
-linearControlDesign
+kp = 1e-3; kd = 2*sqrt(kp +...
+    3*data.orbit.n^2*(data.sc.Iy - data.sc.Ix));
+data.pointing.KP = -kp*[1;1;1];
+data.pointing.KD = -kd*[1;1;1];
 
 %% Control Times:
 startDetumbling = 0;
 stopDetumbling = data.detumbling.tProp;
 startSlew = stopDetumbling;
-stopSlew = startSlew + 3500;
+stopSlew = startSlew + 3000;
 startPointing = stopSlew;
 stopPointing = startPointing + 2*data.orbit.period;
 
@@ -122,9 +125,8 @@ data.slew.stop = stopSlew;
 data.pointing.start = startPointing;
 data.pointing.stop = stopPointing;
 
-
 %% Initial conditions:
-data.ic.w = [9;-7;10]*pi/180;
+data.ic.w = [10;-11;8]*pi/180;
 data.ic.dcm = eye(3);
 data.ic.th = 0;
 
