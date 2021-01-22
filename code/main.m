@@ -1,3 +1,6 @@
+%% main.m 
+% Script to launch the main simulation.
+
 clear; close all; clc;
 
 uncontrolled
@@ -90,9 +93,6 @@ finalPointing.bGyro = outPointing.bGyro.Data(end,:)';
 finalPointing.xObs = outPointing.xObs.Data(end,:)';
 
 save finalPointing finalPointing
-
-%% Save Results:
-save results outDetumbling outSlew outPointing
 
 %% Plots
 

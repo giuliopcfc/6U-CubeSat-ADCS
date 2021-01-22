@@ -1,23 +1,41 @@
 data = struct();
 
+%% Initial conditions:
+% Angular Velocity:
+data.ic.w = [10;-11;8]*pi/180;
+% Direction Cosines Matrix:
+data.ic.dcm = eye(3);
+% True Anomaly:
+data.ic.th = 0;
+
 %% Inertia properties of the spacecraft:
+
+% Moments of inertia:
 data.sc.Ix = 6.2754346e-2;
 data.sc.Iy = 1.1345441e-1;
 data.sc.Iz = 1.6171740e-1;
 
+% Inertia Matrix:
 data.sc.inertiaMatrix = [data.sc.Ix 0 0; 0 data.sc.Iy 0; 0 0 data.sc.Iz];
 data.sc.invI = inv(data.sc.inertiaMatrix);
 
+% Nominal values for observer and control:
+data.sc.nomInertiaMatrix = data.sc.inertiaMatrix ;
+data.sc.nomInvI = data.sc.invI;
+
 %% Orbit:
+% Keplerian Elements:
 data.orbit.a = 6971;
-data.orbit.e = 0.02;
-data.orbit.i = 70*pi/180;
+data.orbit.e = 0.01;
+data.orbit.i = 40*pi/180;
 data.orbit.OM = 0*pi/180;
 data.orbit.om = 0*pi/180;
+
 data.orbit.period = 2*pi*sqrt(data.orbit.a^3/398600);
-data.orbit.n = sqrt(398600/data.orbit.a^3);
+data.orbit.n = sqrt(398600/data.orbit.a^3); % Mean Motion
 
 %% Magnetic Torque:
+% Residual Magnetic Dipole:
 data.magneticTorque.m = [0.05; 0.05; 0.05];
 
 %% SRP:
@@ -36,7 +54,7 @@ a1 = 3*U^2; a2 = 6*U^2; a3 = 2*U^2;
 data.SRP.aSurf = [a2*ones(4,1); a1*[1;1]; a2*ones(8,1)];
 data.SRP.aSurf = [a1; a1; a2; a2; a3; a3; a1; a1; a1; a1; a2; a2; a2; a2];
 
-% Positions:
+% Positions of the centroids:
 data.sc.rCOM = [-130e-3; -25e-3; -10e-3];
 
 rSurf1 = nan(3,14);
@@ -56,67 +74,84 @@ data.SRP.rhoD = [rhoDB*ones(6,1); rhoDP*ones(8,1)];
 data.drag.rSurf = data.SRP.rSurf;
 data.drag.aSurf = data.SRP.aSurf;
 data.drag.NBMat = data.SRP.NBMat;
+
 data.drag.cd = 2.2;
-data.drag.rho = 1.454*1e-13; % From CIRA-72 Model
+data.drag.rho = 1.454e-13; % Air density from CIRA-72 Model
 
 %% Star Sensor:
 data.starSensor.FOV = 20*pi/180;
 data.starSensor.ABS = [0 1 0; 0 0 1; 1 0 0]';
-data.starSensor.sampleTime = 0.1;
+data.starSensor.sampleTime = 1;
 data.starSensor.NStars = 4;
+
+% Noise:
 data.starSensor.sigmaCross = 1.5/3600*pi/180;
 data.starSensor.sigmaRoll = 9/3600*pi/180;
 
 %% Gyroscope:
-sampleTime = 0.01;
+sampleTime = 0.1;
+% Noise:
 data.gyroscope.sampleTime = sampleTime;
 data.gyroscope.sigmaN = 0.15*pi/180/sqrt(3600)/sqrt(sampleTime);
 data.gyroscope.sigmaB = 3e-4*pi/180/sqrt(3600)/sqrt(sampleTime);
-data.gyroscope.kObsW = 0.05;
-data.gyroscope.xObs0 = zeros(6,1);
-data.gyroscope.kObsD = 5.8e-4;
 data.gyroscope.b0 = [1;1;1]*0.3*pi/180/3600;
+
+% Extended state observer:
+data.gyroscope.kObsW = 0.05;
+data.gyroscope.kObsD = 5.8e-4;
+data.gyroscope.xObs0 = zeros(6,1);
+
 
 %% Magnetometer:
 data.magnetometer.sigma = 16e-9;
-data.magnetometer.sampleTime = 0.1;
+data.magnetometer.sampleTime = 1;
 rho = 1*pi/180; phi = -rho; lambda = rho;
 data.magnetometer.nonOrthogonality = [  1               0               0;
                                         sin(rho)        cos(rho)        0;
-                                        sin(phi)*cos(lambda) sin(lambda) cos(phi)*cos(lambda)];
+                                sin(phi)*cos(lambda)   sin(lambda)  cos(phi)*cos(lambda)];
 
 %% Reaction Wheels:
 data.reactionWheel.axis = [0;0;1];
 data.reactionWheel.hMax = 10e-3;
 data.reactionWheel.MMax = 1e-3;
-data.reactionWheel.h0 = 0;
+data.reactionWheel.h0 = 0; % Initial Angular Momentum
 
 %% Magnetorquer:
-data.magnetorquer.DMax =[0.3; 0.3; 0.34];
+data.magnetorquer.DMax =[0.3; 0.3; 0.34]; % Maximum Dipole
 
 %% Detumbling:
-data.detumbling.tDamping = 3000;
 data.detumbling.kDamping = 1e7;
-data.detumbling.tProp = 500 + data.detumbling.tDamping;
-data.detumbling.kProp = 1e-2;
+data.detumbling.kProp = 1e-3;
+
+% Time Scheduling:
+data.detumbling.tDamping = 8000; % Spin Damping
+data.detumbling.tProp = 2000 + data.detumbling.tDamping; % Proportional
 
 %% Slew Motion:
-data.slew.kWE = 1e-2;
+data.slew.kWE = 1e-1;
 data.slew.kAE = 1e-4;
 
+slewDuration = 6000;
+
 %% Pointing:
-kp = 1e-3; kd = 2*sqrt(kp +...
-    3*data.orbit.n^2*(data.sc.Iy - data.sc.Ix));
+kp = 1e-3;  % Proportional Gain
+kd = 2*sqrt(kp +...
+    3*data.orbit.n^2*(data.sc.Iy - data.sc.Ix)); % Derivative Gain
 data.pointing.KP = -kp*[1;1;1];
 data.pointing.KD = -kd*[1;1;1];
 
-%% Control Times:
+% Design of the liner controller:
+linearControlDesign
+
+pointingDuration = 2*data.orbit.period;
+
+%% Time Scheduling for control:
 startDetumbling = 0;
 stopDetumbling = data.detumbling.tProp;
 startSlew = stopDetumbling;
-stopSlew = startSlew + 3000;
+stopSlew = startSlew + slewDuration;
 startPointing = stopSlew;
-stopPointing = startPointing + 2*data.orbit.period;
+stopPointing = startPointing + pointingDuration;
 
 data.detumbling.start = startDetumbling;
 data.detumbling.stop = stopDetumbling;
@@ -125,10 +160,5 @@ data.slew.stop = stopSlew;
 data.pointing.start = startPointing;
 data.pointing.stop = stopPointing;
 
-%% Initial conditions:
-data.ic.w = [10;-11;8]*pi/180;
-data.ic.dcm = eye(3);
-data.ic.th = 0;
-
 %% Clear Vars:
-clearvars -except data 
+% clearvars -except data
