@@ -145,6 +145,11 @@ linearControlDesign
 
 pointingDuration = 2*data.orbit.period;
 
+%% Desaturation:
+% Thresholds for desaturation:
+data.desaturation.hUp = 0.99*data.reactionWheel.hMax; % Desaturation ON 
+data.desaturation.hLow = 5e-3; % Desaturation OFF
+
 %% Time Scheduling for control:
 startDetumbling = 0;
 stopDetumbling = data.detumbling.tProp;

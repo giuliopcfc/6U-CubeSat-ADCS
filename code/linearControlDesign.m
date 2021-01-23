@@ -1,9 +1,4 @@
-%% Design of the linear compensator.
-%{
-Two decoupled systems:
-    - System 1: yaw and roll axis dynamics;
-    - System 2: pitch axes dynamics.
-%}
+%% Design of the linear controller for Earth Pointing.
 
 %% Load data:
 Ix = data.sc.nomInertiaMatrix(1,1);
@@ -28,20 +23,11 @@ B = [   0       0       0
         0       1/Iy    0
         0       0       1/Iz];
 
-C  =   [1           0           0           0           0           0
-        0           1           0           0           0           0
-        0           0           1           0           0           0
-        0           -n          0           1           0           0
-        n           0           0           0           1           0
-        0           0           0           0           0           1];
-    
-D = zeros(size(C,1),size(B,2));
-
 Cz = eye(6); 
 
 % LQR design:
 
-uMax = [1 1 1]*1e-4;
+uMax = [1 1 10]*1e-5;
 zMax = [1e-2 1e-2 1e-2 1e-4 1e-4 1e-4];
 
 Wzz = diag(1./zMax.^2);
