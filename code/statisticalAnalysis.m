@@ -3,11 +3,38 @@
 % off-nominal cases. In each case the initial conditions are different and
 % some parameters of the system are modified with respect to the nominal
 % case.
-
-%% Case 1:
+detumbling
+slew
+pointing
 
 % Load Data:
 config6U
+
+dataFix = data;
+
+% Change time Scheduling for control:
+dataFix.detumbling.tDamping = 7000; % Spin Damping - Final Time
+dataFix.detumbling.tProp = 1000 + dataFix.detumbling.tDamping; % Proportional - Final Time
+
+startDetumbling = 0;
+stopDetumbling = dataFix.detumbling.tProp;
+startSlew = stopDetumbling;
+stopSlew = startSlew + 8000;
+startPointing = stopSlew;
+stopPointing = startPointing + 2*data.orbit.period;
+
+dataFix.detumbling.start = startDetumbling;
+dataFix.detumbling.stop = stopDetumbling;
+dataFix.slew.start = startSlew;
+dataFix.slew.stop = stopSlew;
+dataFix.pointing.start = startPointing;
+dataFix.pointing.stop = stopPointing;
+
+dt = 0.1;
+
+%% Case 1:
+
+data = dataFix;
 
 % Change Parameters:
 data.ic.w = [7;10;-8]*pi/180;
@@ -16,6 +43,8 @@ data.ic.dcm = angle2dcm(45*pi/180,20*pi/180,75*pi/180);
 data.magneticTorque.dipole = [0.1; 0.1; -0.1];
 
 data.sc.rCOM = [-160e-3; -20e-3; 40e-3];
+data.SRP.rSurf = dataFix.SRP.rSurf + dataFix.sc.rCOM - data.sc.rCOM;
+data.drag.rSurf = data.SRP.rSurf;
 
 data.drag.cd = 2.5;
 
@@ -30,11 +59,12 @@ data.sc.invI = inv(data.sc.inertiaMatrix);
 % Detumbling:
 stopTime = data.detumbling.stop;
 startTime = data.detumbling.start;
+tspan = linspace(startTime,stopTime,round((-startTime+stopTime)/dt));
 set_param('detumbling', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.gyroscope.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
-outDetumbling1 = sim('detumbling');
+outDetumbling1 = sim('detumbling',tspan);
 
 % Final Conditions:
 finalDetumbling = struct();
@@ -55,11 +85,12 @@ data.gyroscope.xObs0 = finalDetumbling.xObs;
 
 stopTime = data.slew.stop;
 startTime = data.slew.start;
+tspan = linspace(startTime,stopTime,round((-startTime+stopTime)/dt));
 set_param('slew', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.gyroscope.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
-outSlew1 = sim('slew');
+outSlew1 = sim('slew',tspan);
 
 % Final Conditions:
 finalSlew = struct();
@@ -80,16 +111,16 @@ data.gyroscope.xObs0 = finalSlew.xObs;
 
 stopTime = data.pointing.stop;
 startTime = data.pointing.start;
+tspan = linspace(startTime,stopTime,round((-startTime+stopTime)/dt));
 set_param('pointing', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.gyroscope.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
-outPointing1 = sim('pointing');
+outPointing1 = sim('pointing',tspan);
 
 %% Case 2:
 
-% Load Data:
-config6U
+data = dataFix;
 
 % Change Parameters:
 data.ic.w = [3;13;-9]*pi/180;
@@ -98,8 +129,10 @@ data.ic.dcm = angle2dcm(135*pi/180,6*pi/180,25*pi/180);
 data.magneticTorque.dipole = [0.1; 0.1; 0.1];
 
 data.sc.rCOM = [-135e-3; +20e-3; -40e-3];
+data.SRP.rSurf = dataFix.SRP.rSurf + dataFix.sc.rCOM - data.sc.rCOM;
+data.drag.rSurf = data.SRP.rSurf;
 
-data.drag.cd = 1.5;
+data.drag.cd = 2.5;
 
 rotInertia = angle2dcm(5*pi/180,-10*pi/180,2*pi/180);
 data.sc.Ix = 6.2754346e-2*(1 - 0.1);
@@ -112,11 +145,12 @@ data.sc.invI = inv(data.sc.inertiaMatrix);
 % Detumbling:
 stopTime = data.detumbling.stop;
 startTime = data.detumbling.start;
+tspan = linspace(startTime,stopTime,round((-startTime+stopTime)/dt));
 set_param('detumbling', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.gyroscope.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
-outDetumbling2 = sim('detumbling');
+outDetumbling2 = sim('detumbling',tspan);
 
 % Final Conditions:
 finalDetumbling = struct();
@@ -137,11 +171,12 @@ data.gyroscope.xObs0 = finalDetumbling.xObs;
 
 stopTime = data.slew.stop;
 startTime = data.slew.start;
+tspan = linspace(startTime,stopTime,round((-startTime+stopTime)/dt));
 set_param('slew', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.gyroscope.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
-outSlew2 = sim('slew');
+outSlew2 = sim('slew',tspan);
 
 % Final Conditions:
 finalSlew = struct();
@@ -162,28 +197,30 @@ data.gyroscope.xObs0 = finalSlew.xObs;
 
 stopTime = data.pointing.stop;
 startTime = data.pointing.start;
+tspan = linspace(startTime,stopTime,round((-startTime+stopTime)/dt));
 set_param('pointing', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.gyroscope.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
-outPointing2 = sim('pointing');
+outPointing2 = sim('pointing',tspan);
 
 %% Case 3:
 
-% Load Data:
-config6U
+data = dataFix;
 
 % Change Parameters:
-data.ic.w = [8;6;-11]*pi/180;
-data.ic.dcm = angle2dcm(56*pi/180,273*pi/180,98*pi/180);
+data.ic.w = [-8;9;-11]*pi/180;
+data.ic.dcm = angle2dcm(146*pi/180,27*pi/180,10*pi/180);
 
 data.magneticTorque.dipole = [0.1; 0.05; 0.1];
 
 data.sc.rCOM = [-137e-3; -30e-3; 10e-3];
+data.SRP.rSurf = dataFix.SRP.rSurf + dataFix.sc.rCOM - data.sc.rCOM;
+data.drag.rSurf = data.SRP.rSurf;
 
 data.drag.cd = 2;
 
-rotInertia = angle2dcm(280*pi/180,43*pi/180,320*pi/180);
+rotInertia = angle2dcm(-2*pi/180,3*pi/180,5*pi/180);
 data.sc.Ix = 6.2754346e-2*(1 - 0.1);
 data.sc.Iy = 1.1345441e-1*(1 - 0.1);
 data.sc.Iz = 1.6171740e-1*(1 + 0.2);
@@ -194,11 +231,12 @@ data.sc.invI = inv(data.sc.inertiaMatrix);
 % Detumbling:
 stopTime = data.detumbling.stop;
 startTime = data.detumbling.start;
+tspan = linspace(startTime,stopTime,round((-startTime+stopTime)/dt));
 set_param('detumbling', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.gyroscope.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
-outDetumbling3 = sim('detumbling');
+outDetumbling3 = sim('detumbling',tspan);
 
 % Final Conditions:
 finalDetumbling = struct();
@@ -219,11 +257,12 @@ data.gyroscope.xObs0 = finalDetumbling.xObs;
 
 stopTime = data.slew.stop;
 startTime = data.slew.start;
+tspan = linspace(startTime,stopTime,round((-startTime+stopTime)/dt));
 set_param('slew', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.gyroscope.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
-outSlew3 = sim('slew');
+outSlew3 = sim('slew',tspan);
 
 % Final Conditions:
 finalSlew = struct();
@@ -244,11 +283,12 @@ data.gyroscope.xObs0 = finalSlew.xObs;
 
 stopTime = data.pointing.stop;
 startTime = data.pointing.start;
+tspan = linspace(startTime,stopTime,round((-startTime+stopTime)/dt));
 set_param('pointing', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.gyroscope.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
-outPointing3 = sim('pointing');
+outPointing3 = sim('pointing',tspan);
 
 %% Plots:
 
@@ -258,28 +298,32 @@ set(0,'defaultAxesTickLabelInterpreter','latex');
 set(0, 'defaultLegendInterpreter','latex');
 
 % Detumbling:
-figure('Name','Detumbling - Norm Of Angular Velocity'),
+figure('Name','Statistical Analysis - Detumbling'),
 hold on, grid on, box on
 plot(outDetumbling1.tout,vecnorm(outDetumbling1.w.Data')', 'linewidth',1.5)
 plot(outDetumbling2.tout,vecnorm(outDetumbling2.w.Data')', 'linewidth',1.5)
 plot(outDetumbling3.tout,vecnorm(outDetumbling3.w.Data')', 'linewidth',1.5)
 legend('Case 1','Case 2','Case 3')
 xlabel('$t $[s]'), ylabel('$||\omega||$ [rad/s]')
+% saveFigAsPdf('Statistical Analysis - Detumbling',0.49,2)
 
 % Slew:
-figure('Name','Slew - Pointing Error')
+figure('Name','Statistical Analysis - Slew')
 hold on, grid on, box on
 plot(outSlew1.tout,outSlew1.pointingErr.Data(:), 'linewidth',1.5)
 plot(outSlew2.tout,outSlew2.pointingErr.Data(:), 'linewidth',1.5)
 plot(outSlew3.tout,outSlew3.pointingErr.Data(:), 'linewidth',1.5)
 legend('Case 1','Case 2','Case 3')
 xlabel('$t $[s]'), ylabel('Error [deg]')
+% saveFigAsPdf('Statistical Analysis - Slew',0.49,2)
 
 % Pointing:
-figure('Name','Pointing - Pointing Error')
+figure('Name','Statistical Analysis - Pointing')
 hold on, grid on, box on
 plot(outPointing1.tout,outPointing1.pointingErr.Data(:), 'linewidth',1.5)
 plot(outPointing2.tout,outPointing2.pointingErr.Data(:), 'linewidth',1.5)
 plot(outPointing3.tout,outPointing3.pointingErr.Data(:), 'linewidth',1.5)
 legend('Case 1','Case 2','Case 3')
 xlabel('$t $[s]'), ylabel('Error [deg]')
+% saveFigAsPdf('Statistical Analysis - Pointing',0.49,2)
+

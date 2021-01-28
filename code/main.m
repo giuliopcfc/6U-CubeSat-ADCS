@@ -12,22 +12,25 @@ slew
 config6U
 
 %% Uncontrolled Dynamics:
+dt = 0.1;
 startTime = 0;
 stopTime = data.orbit.period;
+tspan = linspace(startTime,stopTime,round((-startTime+stopTime)/dt));
 set_param('uncontrolled', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.gyroscope.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
-outUncontrolled = sim('uncontrolled');
+outUncontrolled = sim('uncontrolled',tspan);
 
 %% Detumbling:
 stopTime = data.detumbling.stop;
 startTime = data.detumbling.start;
+tspan = linspace(startTime,stopTime,round((-startTime+stopTime)/dt));
 set_param('detumbling', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.gyroscope.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
-outDetumbling = sim('detumbling');
+outDetumbling = sim('detumbling',tspan);
 
 % Final Conditions:
 finalDetumbling = struct();
@@ -50,11 +53,12 @@ data.gyroscope.xObs0 = finalDetumbling.xObs;
 
 stopTime = data.slew.stop;
 startTime = data.slew.start;
+tspan = linspace(startTime,stopTime,round((-startTime+stopTime)/dt));
 set_param('slew', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.gyroscope.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
-outSlew = sim('slew');
+outSlew = sim('slew',tspan);
 
 % Final Conditions:
 finalSlew = struct();
@@ -77,11 +81,12 @@ data.gyroscope.xObs0 = finalSlew.xObs;
 
 stopTime = data.pointing.stop;
 startTime = data.pointing.start;
+tspan = linspace(startTime,stopTime,round((-startTime+stopTime)/dt));
 set_param('pointing', 'Solver', 'ode15s',...
     'MaxStep', num2str(data.gyroscope.sampleTime), 'AbsTol', '1e-8', 'RelTol', '1e-8',...
     'StartTime',num2str(startTime),'StopTime', num2str(stopTime))
 
-outPointing = sim('pointing');
+outPointing = sim('pointing',tspan);
 
 % Final Conditions:
 finalPointing = struct();

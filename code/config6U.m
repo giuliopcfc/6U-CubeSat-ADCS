@@ -81,15 +81,16 @@ data.drag.rho = 1.454e-13; % Air density from CIRA-72 Model
 %% Star Sensor:
 data.starSensor.FOV = 20*pi/180;
 data.starSensor.ABS = [0 1 0; 0 0 1; 1 0 0]';
-data.starSensor.sampleTime = 1;
+data.starSensor.sampleTime = 0.1;
 data.starSensor.NStars = 4;
+data.starSensor.maxSlewRate = 0.5*pi/180;
 
 % Noise:
 data.starSensor.sigmaCross = 1.5/3600*pi/180;
 data.starSensor.sigmaRoll = 9/3600*pi/180;
 
 %% Gyroscope:
-sampleTime = 0.1;
+sampleTime = 0.01;
 % Noise:
 data.gyroscope.sampleTime = sampleTime;
 data.gyroscope.sigmaN = 0.15*pi/180/sqrt(3600)/sqrt(sampleTime);
@@ -104,11 +105,8 @@ data.gyroscope.xObs0 = zeros(6,1);
 
 %% Magnetometer:
 data.magnetometer.sigma = 16e-9;
-data.magnetometer.sampleTime = 1;
-rho = 1*pi/180; phi = -rho; lambda = rho;
-data.magnetometer.nonOrthogonality = [  1               0               0;
-                                        sin(rho)        cos(rho)        0;
-                                sin(phi)*cos(lambda)   sin(lambda)  cos(phi)*cos(lambda)];
+data.magnetometer.sigmaAngle = 1*pi/180;
+data.magnetometer.sampleTime = 1/18;
 
 %% Reaction Wheels:
 data.reactionWheel.axis = [0;0;1];
@@ -121,25 +119,19 @@ data.magnetorquer.DMax =[0.3; 0.3; 0.34]; % Maximum Dipole
 
 %% Detumbling:
 data.detumbling.kDamping = 1e7;
-data.detumbling.kProp = 1e-3;
+data.detumbling.kProp = 1e-2;
 
 % Time Scheduling:
-data.detumbling.tDamping = 8000; % Spin Damping
-data.detumbling.tProp = 2000 + data.detumbling.tDamping; % Proportional
+data.detumbling.tDamping = 4000; % Spin Damping - Final Time
+data.detumbling.tProp = 1000 + data.detumbling.tDamping; % Proportional - Final Time
 
 %% Slew Motion:
 data.slew.kWE = 1e-1;
 data.slew.kAE = 1e-4;
 
-slewDuration = 6000;
+slewDuration = 4000;
 
 %% Pointing:
-kp = 1e-3;  % Proportional Gain
-kd = 2*sqrt(kp +...
-    3*data.orbit.n^2*(data.sc.Iy - data.sc.Ix)); % Derivative Gain
-data.pointing.KP = -kp*[1;1;1];
-data.pointing.KD = -kd*[1;1;1];
-
 % Design of the liner controller:
 linearControlDesign
 
@@ -147,8 +139,10 @@ pointingDuration = 2*data.orbit.period;
 
 %% Desaturation:
 % Thresholds for desaturation:
-data.desaturation.hUp = 0.99*data.reactionWheel.hMax; % Desaturation ON 
-data.desaturation.hLow = 5e-3; % Desaturation OFF
+data.desaturation.hUp = 0.95*data.reactionWheel.hMax; % Desaturation ON 
+data.desaturation.hLow = 0.5*data.reactionWheel.hMax; % Desaturation OFF
+
+data.desaturation.MR = data.reactionWheel.MMax;
 
 %% Time Scheduling for control:
 startDetumbling = 0;
