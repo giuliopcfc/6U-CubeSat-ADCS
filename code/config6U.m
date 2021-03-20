@@ -102,7 +102,6 @@ data.gyroscope.kObsW = 0.05;
 data.gyroscope.kObsD = 5.8e-4;
 data.gyroscope.xObs0 = zeros(6,1);
 
-
 %% Magnetometer:
 data.magnetometer.sigma = 16e-9;
 data.magnetometer.sigmaAngle = 1*pi/180;
@@ -136,13 +135,6 @@ slewDuration = 4000;
 linearControlDesign
 
 pointingDuration = 2*data.orbit.period;
-
-%% Desaturation:
-% Thresholds for desaturation:
-data.desaturation.hUp = 0.95*data.reactionWheel.hMax; % Desaturation ON 
-data.desaturation.hLow = 0.5*data.reactionWheel.hMax; % Desaturation OFF
-
-data.desaturation.MR = data.reactionWheel.MMax;
 
 %% Time Scheduling for control:
 startDetumbling = 0;

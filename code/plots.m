@@ -13,7 +13,7 @@ plot(outUncontrolled.tout,outUncontrolled.MSRP.Data,'linewidth',1)
 plot(outUncontrolled.tout,outUncontrolled.MDrag.Data,'linewidth',1)
 legend('GG','Magnetic','SRP','Drag')
 xlabel('$t [s]$'), ylabel('Torque $[N \, m]$')
-% saveFigAsPdf('Uncontrolled Dynamics - Distubing Torques',0.49,2)
+% saveFigAsPdf('Uncontrolled Dynamics - Distubing Torques',0.49,1.5)
 
 ind = outUncontrolled.tout <= 1000; 
 figure('Name','Uncontrolled Dynamics - Angular Velocity'),
@@ -21,14 +21,14 @@ hold on, grid on, box on
 plot(outUncontrolled.tout(ind), outUncontrolled.w.Data(ind,:), 'linewidth',1);
 xlabel('$t [s]$'), ylabel('$\omega$ [rad/s]')
 legend('$\omega_x$','$\omega_y$','$\omega_z$')
-% saveFigAsPdf('Uncontrolled Dynamics - Angular Velocity',0.49,2)
+% saveFigAsPdf('Uncontrolled Dynamics - Angular Velocity',0.49,1.5)
 
 ind = outUncontrolled.tout <= 1000; 
 figure('Name','Uncontrolled Dynamics - Pointing Error')
 hold on, grid on, box on
 plot(outUncontrolled.tout(ind), squeeze(outUncontrolled.pointingErr.Data(ind)),'k', 'linewidth',1);
 xlabel('$t [s]$'), ylabel('Error [deg]')
-% saveFigAsPdf('Uncontrolled Dynamics - Pointing Error',0.49,2)
+% saveFigAsPdf('Uncontrolled Dynamics - Pointing Error',0.49,1.5)
 
 ind = outUncontrolled.tout <= 100; 
 figure('Name','Uncontrolled Dynamics - Direction Cosines')
@@ -43,24 +43,7 @@ for i = 1:3
 end
 % legend(names)
 xlabel('$t [s]$'), ylabel('Direction Cosines')
-% saveFigAsPdf('Uncontrolled Dynamics - Direction Cosines',0.49,2)
-
-figure('Name','Uncontrolled Dynamics - Error on the Determinant of ABN')
-hold on, grid on, box on
-plot(outUncontrolled.tout, outUncontrolled.detABN.Data - 1,'k', 'linewidth',1);
-xlabel('$t [s]$'), ylabel('$\textrm{det}A_{b/n} - 1$')
-% saveFigAsPdf('Uncontrolled Dynamics - Error on the Determinant of ABN',0.49,2)
-
-figure('Name','Uncontrolled Dynamics - Error on ABN^T x ABN')
-hold on, grid on, box on
-errMat = outUncontrolled.ABNTxABN.Data - eye(3);
-for i = 1:3
-    for j = 1:3
-        plot(outUncontrolled.tout, squeeze(errMat(i,j,:)), 'linewidth',1);
-    end
-end
-xlabel('$t [s]$'), ylabel('$A_{b/n}^TA_{b/n} - I_3$')
-% saveFigAsPdf('Uncontrolled Dynamics - Error on ABN^T x ABN',0.49,2)
+% saveFigAsPdf('Uncontrolled Dynamics - Direction Cosines',0.49,1.5)
 
 %% Detumbling:
 
@@ -142,7 +125,7 @@ plot(outSlew.tout, outSlew.w.Data, 'linewidth',1.5);
 plot(outSlew.tout, data.orbit.n*outSlew.tout./outSlew.tout,'k--', 'linewidth',1.5);
 xlabel('$t [s]$'), ylabel('$\omega$ [rad/s]')
 legend('$\omega_x$','$\omega_y$','$\omega_z$','$n$')
-% saveFigAsPdf('Slew - Angular Velocity',0.49,2)
+% saveFigAsPdf('Slew - Angular Velocity',0.49,1.5)
 
 figure('Name','Slew - Direction Cosines')
 hold on, grid on, box on
@@ -156,13 +139,13 @@ for i = 1:3
 end
 % legend(names)
 xlabel('$t [s]$'), ylabel('Direction Cosines')
-% saveFigAsPdf('Slew - Direction Cosines',0.49,2)
+% saveFigAsPdf('Slew - Direction Cosines',0.49,1.5)
 
 figure('Name','Slew - Pointing Error')
 hold on, grid on, box on
 plot(outSlew.tout, outSlew.pointingErr.Data(:),'k', 'linewidth',1.5);
 xlabel('$t [s]$'), ylabel('Error [deg]')
-% saveFigAsPdf('Slew - Pointing Error',0.49,2)
+% saveFigAsPdf('Slew - Pointing Error',0.49,1.5)
 
 figure('Name','Slew - Reaction Wheel')
 hold on, grid on, box on
@@ -172,28 +155,28 @@ xlabel('$t [s]$'), ylabel('$h_r [N  m s]$')
 yyaxis right
 plot(outSlew.tout, outSlew.MR.Data(:), 'linewidth',3);
 xlabel('$t [s]$'), ylabel('$M_r [N  m]$')
-% saveFigAsPdf('Slew - Reaction Wheel',0.49,2)
+% saveFigAsPdf('Slew - Reaction Wheel',0.49,1.5)
 
 figure('Name','Slew - Dipole')
 hold on, grid on, box on
 plot(outSlew.tout,outSlew.D.Data, 'linewidth',1.5); 
 xlabel('$t [s]$'), ylabel('D $ [A m^2]$')
 legend('$D_x$','$D_y$','$D_z$')
-% saveFigAsPdf('Slew - Dipole',0.49,2)
+% saveFigAsPdf('Slew - Dipole',0.49,1.5)
 
 figure('Name','Slew - MC')
 hold on, grid on, box on
 plot(outSlew.tout,outSlew.MC.Data, 'linewidth',1.5); 
 xlabel('$t [s]$'), ylabel('$M_c  [N m]$')
 legend('$M_{c,x}$','$M_{c,y}$','$M_{c,z}$')
-% saveFigAsPdf('Slew - MC',0.49,2)
+% saveFigAsPdf('Slew - MC',0.49,1.5)
 
 figure('Name','Slew - MC ideal - MC')
 hold on, grid on, box on
 plot(outSlew.tout,outSlew.errMC.Data, 'linewidth',1.5); 
 xlabel('$t [s]$'), ylabel('$M_c^{id} - M_c [N m]$')
 legend('$\delta M_{c,x}$','$\delta M_{c,y}$','$\delta M_{c,z}$')
-% saveFigAsPdf('Slew - MC ideal - MC',0.49,2)
+% saveFigAsPdf('Slew - MC ideal - MC',0.49,1.5)
 
 
 %% Earth Pointing:
@@ -226,20 +209,6 @@ plot(outPointing.tout, outPointing.pointingErr.Data(:),'k', 'linewidth',1.5);
 xlabel('$t [s]$'), ylabel('Error [deg]')
 % saveFigAsPdf('Earth Pointing - Pointing Error',0.49,2)
 
-figure('Name','Earth Pointing - Gyroscope Error')
-hold on, grid on, box on
-plot(outPointing.tout,outPointing.errGyro.Data, 'linewidth',1.5);
-xlabel('$t [s]$'), ylabel('$\omega - \omega_m \,[rad/s]$')
-legend('$\delta\omega_x$','$\delta\omega_y$','$\delta\omega_z$')
-% saveFigAsPdf('Earth Pointing - Gyroscope Error',0.49,2)
-
-figure('Name','Earth Pointing - Angular Velocity Estimation Error')
-hold on, grid on, box on
-plot(outPointing.tout,outPointing.w.Data - outPointing.estW.Data, 'linewidth',1.5);
-xlabel('$t [s]$'), ylabel('$\omega - \bar{\omega} [rad/s]$')
-legend('$\delta\omega_x$','$\delta\omega_y$','$\delta\omega_z$')
-% saveFigAsPdf('Earth Pointing - Angular Velocity Estimation Error',0.49,2)
-
 figure('Name','Earth Pointing - Direction Cosines Estimation Error')
 hold on, grid on, box on
 names = cell(9,1); index = 0;
@@ -252,14 +221,6 @@ for i = 1:3
 end
 xlabel('$t [s]$'), ylabel('$A_{b/n} - \bar{A}_{b/n}$')
 % saveFigAsPdf('Earth Pointing - Direction Cosines Estimation Error',0.49,2)
-
-
-figure('Name','Earth Pointing - Disturbing Torque Estimation Error')
-hold on, grid on, box on
-plot(outPointing.tout, outPointing.MD.Data - outPointing.estMD.Data, 'linewidth',1.5);
-xlabel('$t [s]$'), ylabel('$M_d - \bar{M}_d [N m]$')
-legend('$\delta M_{d,x}$','$\delta M_{d,y}$','$\delta M_{d,z}$')
-% saveFigAsPdf('Earth Pointing - Disturbing Torque Estimation Error',0.49,2)
 
 figure('Name','Earth Pointing - Sun in FOV')
 hold on, grid on, box on
@@ -292,14 +253,14 @@ xlabel('$t [s]$'), ylabel('$M_c  [N m]$')
 legend('$M_{c,x}$','$M_{c,y}$','$M_{c,z}$')
 h = get(gca,'Children');
 set(gca,'Children',[h(3) h(2) h(1)])
-% saveFigAsPdf('Earth Pointing - MC',0.49,2)
+% saveFigAsPdf('Earth Pointing - MC',0.49,1.5)
 
 figure('Name','Earth Pointing - MC ideal - MC')
 hold on, grid on, box on
 plot(outPointing.tout,outPointing.errMC.Data, 'linewidth',1.5); 
 xlabel('$t [s]$'), ylabel('$M_c^{id} - M_c [N m]$')
 legend('$\delta M_{c,x}$','$\delta M_{c,y}$','$ \delta M_{c,z}$')
-% saveFigAsPdf('Earth Pointing - MC ideal - MC',0.49,2)
+% saveFigAsPdf('Earth Pointing - MC ideal - MC',0.49,1.5)
 
 
 
